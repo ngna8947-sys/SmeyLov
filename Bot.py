@@ -183,7 +183,7 @@ http = _make_session()
 STRINGS = {
     "kh": {
         "welcome": (
-            "👋 សួស្ដីស្វាគមន៍មកកាន់ <b>VISAL DIGITAL</b> 🤖\n\n"
+            "👋 សួស្ដីស្វាគមន៍មកកាន់ <b>Smey Lov</b> 🤖\n\n"
             "💡 អ្នកអាចប្រើ Bot របស់យើងសម្រាប់:\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
@@ -223,7 +223,7 @@ STRINGS = {
     },
     "en": {
         "welcome": (
-            "👋 Welcome to <b>VISAL DIGITAL</b> 🤖\n\n"
+            "👋 Welcome to <b>Smey Lov</b> 🤖\n\n"
             "💡 You can use our bot for:\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
@@ -367,7 +367,7 @@ def admin_kb():
     kb.row("💸 បន្ថែមប្រាក់",   "💔 កាត់ប្រាក់")
     kb.row("━━━ 👥 អ្នកប្រើ ━━━")
     kb.row("👥 អ្នកប្រើប្រាស់",  "📊 ស្ថិតិ")
-    kb.row("🎟️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
+    kb.row("🎟️️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
     kb.row("⏱ ល្បឿន Poll",     "🔄 ធ្វើឱ្យទាន់សម័យ")
     return kb
 
@@ -833,7 +833,7 @@ def _place_store_order(uid, prod_id, plan_idx):
     if remaining <= STOCK_ALERT_MIN:
         try:
             alert_txt = (
-                f"⚠️ <b>ជូនដំណឹង Stock!</b>\n"
+                f"⚠️️ <b>ជូនដំណឹង Stock!</b>\n"
                 f"📦 {p.get('icon','')} {p['name']} — {plan['label']}\n"
                 f"🔢 នៅសល់: <b>{remaining}</b>"
             )
@@ -920,8 +920,8 @@ def _show_welcome(uid):
     b = bal(uid)
     caption = t(uid, "welcome", b)
     
-    # 🔗 ដាក់ Link រូបភាពពី GitHub របស់អ្នកនៅទីនេះ (Raw URL)
-    photo_url = "https://raw.githubusercontent.com/username/repository/main/your_image.jpg"
+    # 🔗 រូបភាពពី GitHub Raw Link របស់អ្នក
+    photo_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
     
     markup = InlineKeyboardMarkup([
         [
@@ -938,7 +938,7 @@ def _show_welcome(uid):
             parse_mode="HTML",
             reply_markup=markup
         )
-        bot.send_message(uid, "👇 សូមជ្រើសរើសមីនុយខាងក្រោម៖[cite: 2]", reply_markup=main_kb(uid))
+        bot.send_message(uid, "👇 សូមជ្រើសរើសមីនុយខាងក្រោម៖", reply_markup=main_kb(uid))
     except Exception:
         bot.send_message(uid, caption, parse_mode="HTML", reply_markup=main_kb(uid))
 
@@ -1689,7 +1689,7 @@ def cb_adminpromo(call):
     if action == "add":
         waiting[uid] = "promo_add_code"
         bot.send_message(uid,
-            "🎟️ <b>បន្ថែម Promo Code</b>\n"
+            "🎟️️ <b>បន្ថែម Promo Code</b>\n"
             "━━━━━━━━━━━━━━━━━━\n"
             "ផ្ញើ: <code>CODE DISCOUNT TYPE USES</code>\n"
             "Type: <b>pct</b> (%) ឬ <b>fix</b> ($)\n"
@@ -2560,7 +2560,7 @@ def handle(message):
         except: pass
         return
 
-    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️ ហាង"):
+    if text in ("🛍️ Shop", "🛍️️ ហាងឌីជីថល", "🛍️ ហាង"):
         livechat_users.discard(uid)
         bot.send_message(uid,
             "🛍️ <b>ហាងឌីជីថល</b>\n━━━━━━━━━━━━━━━━━━",
