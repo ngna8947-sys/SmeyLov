@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 ╔══════════════════════════════════════════════════════════════╗
-║     Kairozen All-in-One Bot v4 — カイロゼン                  ║
+║     Kairozen All-in-One Bot v4.1 — カイロゼン                ║
 ║     ហាង + SMM Panel · ដាក់លុយ KHQR                           ║
 ║     Global Discount · Panel Admin                         ║
 ║     Compatible: Python 3.10+ · Termux / Pydroid 3         ║
@@ -183,16 +183,14 @@ http = _make_session()
 STRINGS = {
     "kh": {
         "welcome": (
-            "👋 សូស្ដីមក <b>Kairozen カイロゼン</b>!\n"
-            "━━━━━━━━━━━━━━━━━━\n"
-            "🌟 Bot នេះផ្ដល់សេវាកម្ម:\n"
-            "🛍️ ទិញផលិតផលឌីជីថល\n"
-            "📊 សេវា SMM (Followers/Likes)\n"
-            "💳 បញ្ចូលលុយ · ប្រវត្តិ · ជំនួយ\n"
-            "━━━━━━━━━━━━━━━━━━\n"
-            "💰 សាច់ប្រាក់: <b>${:.2f}</b>"
+            "👋 សួស្ដីស្វាគមន៍មកកាន់ <b>VISAL DIGITAL</b> 🤖\n\n"
+            "💡 អ្នកអាចប្រើ Bot របស់យើងសម្រាប់:\n"
+            "📈 Boost Followers & Likes Social Media\n"
+            "⚡ Automation SMM Services\n"
+            "📊 Check Stats & Orders\n\n"
+            "💰 សាច់ប្រាក់ក្នុងកាបូប: <b>${:.2f}</b>"
         ),
-        "select_lang":   "🌐 ជ្រើសរើសភាសា:",
+        "select_lang":   "🌐 ជ្រើសរើសភាសា / Select Language:",
         "lang_set":      "✅ ភាសាត្រូវបានផ្លាស់ប្ដូរ!",
         "menu":          "🏠 ត្រឡប់ Menu ដើម",
         "banned":        "🚫 គណនីរបស់អ្នកត្រូវបាន ban!",
@@ -225,13 +223,11 @@ STRINGS = {
     },
     "en": {
         "welcome": (
-            "👋 Welcome to <b>Kairozen カイロゼン</b>!\n"
-            "━━━━━━━━━━━━━━━━━━\n"
-            "🌟 Services available:\n"
-            "🛍️ Buy Digital Products\n"
-            "📊 SMM Services (Followers/Likes)\n"
-            "💳 Top Up · History · Support\n"
-            "━━━━━━━━━━━━━━━━━━\n"
+            "👋 Welcome to <b>VISAL DIGITAL</b> 🤖\n\n"
+            "💡 You can use our bot for:\n"
+            "📈 Boost Followers & Likes Social Media\n"
+            "⚡ Automation SMM Services\n"
+            "📊 Check Stats & Orders\n\n"
             "💰 Balance: <b>${:.2f}</b>"
         ),
         "select_lang":   "🌐 Select Language:",
@@ -892,7 +888,7 @@ def is_banned(uid):
     return bool(users_db.get(str(uid), {}).get("banned", False))
 
 # ═══════════════════════════════════════════════════════════
-#  START
+#  START & WELCOME WITH GITHUB PHOTO
 # ═══════════════════════════════════════════════════════════
 @bot.message_handler(commands=["start"])
 def cmd_start(message):
@@ -922,10 +918,29 @@ def cmd_start(message):
 
 def _show_welcome(uid):
     b = bal(uid)
-    bot.send_message(uid,
-        t(uid, "welcome", b),
-        parse_mode="HTML",
-        reply_markup=main_kb(uid))
+    caption = t(uid, "welcome", b)
+    
+    # 🔗 ដាក់ Link រូបភាពពី GitHub របស់អ្នកនៅទីនេះ (Raw URL)
+    photo_url = "https://raw.githubusercontent.com/username/repository/main/your_image.jpg"
+    
+    markup = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("🇰🇭 ខ្មែរ", callback_data="setlang:kh"),
+            InlineKeyboardButton("🇬🇧 English", callback_data="setlang:en")
+        ]
+    ])
+
+    try:
+        bot.send_photo(
+            chat_id=uid,
+            photo=photo_url,
+            caption=caption,
+            parse_mode="HTML",
+            reply_markup=markup
+        )
+        bot.send_message(uid, "👇 សូមជ្រើសរើសមីនុយខាងក្រោម៖[cite: 2]", reply_markup=main_kb(uid))
+    except Exception:
+        bot.send_message(uid, caption, parse_mode="HTML", reply_markup=main_kb(uid))
 
 # ═══════════════════════════════════════════════════════════
 #  CALLBACKS
@@ -2682,7 +2697,7 @@ def _check_key():
 
 @flask_app.route("/health")
 def health():
-    return jsonify({"status": "running", "bot": "Kairozen v4"})
+    return jsonify({"status": "running", "bot": "Kairozen v4.1"})
 
 @flask_app.route("/status")
 def status():
@@ -2753,7 +2768,7 @@ def run_flask():
 def print_banner():
     banner = f"""
 {CLR_CYAN}{CLR_BOLD}╔══════════════════════════════════════════════════════════════╗
-║     {CLR_GREEN}Kairozen All-in-One Bot v4 — カイロゼン                  {CLR_CYAN}║
+║     {CLR_GREEN}Kairozen All-in-One Bot v4.1 — カイロゼン                {CLR_CYAN}║
 ║     {CLR_YELLOW}ហាង + SMM Panel · ដាក់លុយ KHQR                           {CLR_CYAN}║
 ║     {CLR_MAGENTA}Global Discount · Panel Admin                         {CLR_CYAN}║
 ║     {CLR_WHITE}Compatible: Python 3.10+ · Termux / Pydroid 3         {CLR_CYAN}║
@@ -2766,6 +2781,6 @@ def print_banner():
 # ═══════════════════════════════════════════════════════════
 if __name__ == "__main__":
     print_banner()
-    logger.info(f"{CLR_BOLD}{CLR_GREEN}🚀 Kairozen All-in-One Bot v4 កំពុងចាប់ផ្ដើម...{CLR_RESET}")
+    logger.info(f"{CLR_BOLD}{CLR_GREEN}🚀 Kairozen All-in-One Bot v4.1 កំពុងចាប់ផ្ដើម...{CLR_RESET}")
     threading.Thread(target=run_flask, daemon=True).start()
     bot.infinity_polling(timeout=20, long_polling_timeout=15)
