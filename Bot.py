@@ -270,9 +270,16 @@ def get_lang(uid): return user_lang.get(str(uid), "kh")
 def t(uid, key, *args):
     lang = get_lang(uid)
     s = STRINGS.get(lang, STRINGS["kh"]).get(key) or STRINGS["kh"].get(key, key)
+    
+    if "{name}" in s and not args:
+        user_name = users_db.get(str(uid), {}).get("name", "User")
+        args = (user_name,)
+
     if args:
-        try: return s.format(*args)
-        except: return s
+        try: 
+            return s.format(*args)
+        except: 
+            return s
     return s
 
 def toggle_lang(uid):
@@ -634,7 +641,7 @@ def _watch_deposit(uid, uid_str, dep_id, amount, start_ts, sent_msg_id=None):
     
     while time.time() < deadline:
         dep = store_deps.get(dep_id)
-        if not dep or dep.get("status") != "confirmed":
+        if not dep or dep.get("status"] != "confirmed":
             md5 = dep.get("md5", "") if dep else ""
             if md5 and _check_bakong(md5, amount, start_ts):
                 bonus = float(dep.get("bonus", 0))
@@ -890,7 +897,7 @@ def is_banned(uid):
     return bool(users_db.get(str(uid), {}).get("banned", False))
 
 # ═══════════════════════════════════════════════════════════
-#  START & WELCOME WITH GITHUB PHOTO (FIXED DOUBLE MESSAGE)
+#  START & WELCOME WITH GITHUB PHOTO
 # ═══════════════════════════════════════════════════════════
 @bot.message_handler(commands=["start"])
 def cmd_start(message):
@@ -948,9 +955,9 @@ def cb_setlang(call):
     except:
         pass
         
-    # បន្ទាប់ពីជ្រើសរើសភាសារួច បង្ហាញ Welcome ព្រមទាំង Menu ពេញលេញជូនអតិថិជន
     b = bal(uid)
-    caption = t(uid, "welcome", call.from_user.first_name or "User") + f"\n\n💰 Balance: <b>${b:.2f}</b>"
+    user_name = call.from_user.first_name or "User"
+    caption = t(uid, "welcome", user_name) + f"\n\n💰 Balance: <b>${b:.2f}</b>"
     photo_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
     
     try:
@@ -987,7 +994,7 @@ def cb_dep(call):
         waiting[uid] = {"step": "dep_custom"}
         bot.send_message(uid,
             "✏ <b>ផ្ញើចំនួន $ ដែលចង់ deposit:</b>" if lang=="kh" else
-            "✏️ <b>Send amount $ to deposit:</b>",
+            "✏️️ <b>Send amount $ to deposit:</b>",
             parse_mode="HTML", reply_markup=cancel_kb())
         return
 
@@ -1091,7 +1098,7 @@ def cb_admaddall(call):
             [InlineKeyboardButton("📸 Instagram", callback_data="smmaddcat:Instagram"),
              InlineKeyboardButton("▶ YouTube",   callback_data="smmaddcat:YouTube")],
             [InlineKeyboardButton("📱 Telegram",  callback_data="smmaddcat:Telegram")],
-            [InlineKeyboardButton("✏️ Custom Category", callback_data="smmaddcat:custom")],
+            [InlineKeyboardButton("✏️️ Custom Category", callback_data="smmaddcat:custom")],
         ])
         bot.send_message(uid, "➕ <b>ជ្រើសរើស Category សម្រាប់ SMM Service៖</b>", parse_mode="HTML", reply_markup=cats_kb)
 
@@ -2166,7 +2173,7 @@ def handle(message):
                 lines.append(f"🆔 <code>{oid}</code> | 👤 <code>{o['uid']}</code>\n  {o.get('label','?')} | Qty:{o.get('qty','?')} | ${o.get('price',0):.4f} | {o.get('status','?')}")
             bot.send_message(uid, "\n".join(lines)[:4000], parse_mode="HTML", reply_markup=admin_kb()); return
 
-        if text == "⚙️ កំណត់ SMM API":
+        if text == "⚙️️ កំណត់ SMM API":
             cur_url = smm_api.get("url","❌ មិនទាន់ set")
             cur_key = smm_api.get("key","❌ មិនទាន់ set")
             masked = cur_key[:6] + "****" + cur_key[-4:] if len(cur_key) > 10 else cur_key
@@ -2229,7 +2236,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status")=="pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status"]=="pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
@@ -2371,7 +2378,7 @@ def handle(message):
                     label = s.get("label", slug)[:30]
                     api_id = s.get("api_id", "?")
                     btns.append([InlineKeyboardButton(
-                        f"🗑 [{api_id}] {label}",
+                        f"🗑️ [{api_id}] {label}",
                         callback_data=f"delsvc:{slug}"
                     )])
                 btns.append([InlineKeyboardButton(
