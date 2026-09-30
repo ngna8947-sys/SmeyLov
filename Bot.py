@@ -355,7 +355,7 @@ def main_kb(uid=None):
         kb.row("💳 Top Up",        "👜 Wallet",         "📜 History")
         kb.row("💬 Support",       "💡 How to Use",    "🌐 Language")
     else:
-        kb.row("🛍️ ហាងឌីជីថល")
+        kb.row("🛍️️ ហាងឌីជីថល")
         kb.row("📊 សេវាកម្ម SMM",  "📦 ការបញ្ជាទិញ")
         kb.row("💳 ដាក់ប្រាក់",    "👜 កាបូបលុយ",      "📜 ប្រវត្តិ")
         kb.row("💬 ជំនួយ Support", "💡 របៀបប្រើប្រាស់", "🌐 ភាសា / Language")
@@ -1153,7 +1153,7 @@ def cb_plan(call):
     
     waiting[uid] = {"step": "order_qty", "prod_id": pid, "plan_idx": idx, "price": price}
     bot.send_message(uid,
-        f"🛍️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
+        f"🛍️️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"🔢 សូមបញ្ចូលចំនួន Account (លេខតែមួយ):\nSend a numeric count of accounts:",
         parse_mode="HTML", reply_markup=cancel_kb())
@@ -1717,7 +1717,7 @@ def cb_adminpromo(call):
         promos.pop(code.upper(), None)
         _save(PROMO_FILE, promos)
         try:
-            bot.edit_message_text(f"🗑️️ Promo <b>{code}</b> លុបហើយ!",
+            bot.edit_message_text(f"🗑️ Promo <b>{code}</b> លុបហើយ!",
                                   chat_id=uid, message_id=call.message.message_id, parse_mode="HTML")
         except: pass
 
@@ -1765,7 +1765,7 @@ def handle(message):
         if target_uid:
             try:
                 bot.copy_message(chat_id=int(target_uid), from_chat_id=ADMIN_ID, message_id=message.message_id)
-                bot.message_reaction(ADMIN_ID, message.message_id, reaction=[{"type": "emoji", "emoji": "👍"}])
+                # bot.message_reaction(ADMIN_ID, message.message_id, reaction=[{"type": "emoji", "emoji": "👍"}])
             except Exception as e:
                 bot.send_message(ADMIN_ID, f"❌ បញ្ជូនសារមិនទាន់បានទេ: {e}")
             return
@@ -1795,7 +1795,7 @@ def handle(message):
             livechat_sessions[str(sent_admin_msg.message_id)] = uid_str
             _save(LIVECHAT_FILE, livechat_sessions)
             
-            bot.message_reaction(uid, message.message_id, reaction=[{"type": "emoji", "emoji": "✍️"}])
+            # bot.message_reaction(uid, message.message_id, reaction=[{"type": "emoji", "emoji": "✍️"}])
         except Exception as e:
             logger.error(f"{CLR_RED}LiveChat error: {e}{CLR_RESET}")
         return
@@ -2173,7 +2173,7 @@ def handle(message):
                 lines.append(f"🆔 <code>{oid}</code> | 👤 <code>{o['uid']}</code>\n  {o.get('label','?')} | Qty:{o.get('qty','?')} | ${o.get('price',0):.4f} | {o.get('status','?')}")
             bot.send_message(uid, "\n".join(lines)[:4000], parse_mode="HTML", reply_markup=admin_kb()); return
 
-        if text == "⚙️️ កំណត់ SMM API":
+        if text == "⚙️ កំណត់ SMM API":
             cur_url = smm_api.get("url","❌ មិនទាន់ set")
             cur_key = smm_api.get("key","❌ មិនទាន់ set")
             masked = cur_key[:6] + "****" + cur_key[-4:] if len(cur_key) > 10 else cur_key
@@ -2575,7 +2575,7 @@ def handle(message):
         except: pass
         return
 
-    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️️ ហាង"):
+    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️ ហាង"):
         livechat_users.discard(uid)
         bot.send_message(uid,
             "🛍️ <b>ហាងឌីជីថល</b>\n━━━━━━━━━━━━━━━━━━",
@@ -2615,7 +2615,7 @@ def handle(message):
         lines = [f"📦 <b>បញ្ជាទិញ</b>\n━━━━━━━━━━━━━━━━━━"]
         for oid, o in sorted(my_orders.items(), key=lambda x: x[1].get("ts",0), reverse=True)[:10]:
             if "prod_name" in o:
-                lines.append(f"🛍️️ <code>{oid}</code> — {o['prod_name']} | ${o.get('price',0):.2f}")
+                lines.append(f"🛍️ <code>{oid}</code> — {o['prod_name']} | ${o.get('price',0):.2f}")
             else:
                 lines.append(f"📊 <code>{oid}</code> — {o.get('label','?')} x{o.get('qty','?')} | ${o.get('price',0):.4f} | {o.get('status','?')}")
         bot.send_message(uid, "\n".join(lines), parse_mode="HTML", reply_markup=main_kb(uid)); return
