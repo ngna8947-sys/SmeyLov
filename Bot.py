@@ -19,7 +19,7 @@ from telebot.types import (
 )
 from flask import Flask, request as flask_request, jsonify
 from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
+from urllib3.util.retry Retry
 
 # ─── COLOR CONSTANTS FOR TERMINAL ───
 CLR_RESET   = "\033[0m"
@@ -245,7 +245,7 @@ STRINGS = {
         "order_done":    "✅ Order placed successfully!",
         "deposit_ok":    "✅ Deposit successful!",
         "qr_expired":    "⏰ QR expired! Please top up again",
-        "qr_error":      "⚠️️ QR Generate Error! Contact Admin",
+        "qr_error":      "⚠️ QR Generate Error! Contact Admin",
         "order_notfound":"❌ Order not found!",
         "no_orders":     "❌ No orders yet!",
         "how_to_use": (
@@ -1153,7 +1153,7 @@ def cb_plan(call):
     
     waiting[uid] = {"step": "order_qty", "prod_id": pid, "plan_idx": idx, "price": price}
     bot.send_message(uid,
-        f"🛍️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
+        f"🛍️️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"🔢 សូមបញ្ចូលចំនួន Account (លេខតែមួយ):\nSend a numeric count of accounts:",
         parse_mode="HTML", reply_markup=cancel_kb())
@@ -2572,7 +2572,7 @@ def handle(message):
         except: pass
         return
 
-    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️ ហាង", "🛍 ហាងឌីជីថល", "🛍 ហាង"):
+    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️️ ហាង", "🛍 ហាងឌីជីថល", "🛍 ហាង"):
         livechat_users.discard(uid)
         bot.send_message(uid,
             "🛍️ <b>ហាងឌីជីថល</b>\n━━━━━━━━━━━━━━━━━━",
@@ -2651,7 +2651,7 @@ def handle(message):
         for oid, o in sorted(my_orders.items(), key=lambda x: x[1].get("ts",0), reverse=True)[:15]:
             dt = datetime.datetime.fromtimestamp(o.get("ts",0)).strftime("%d/%m %H:%M")
             if "prod_name" in o:
-                lines.append(f"🛍️ <code>{oid}</code> | {o['prod_name']} — {o.get('plan','?')} | <b>${o.get('price',0):.2f}</b> | {dt}")
+                lines.append(f"🛍️️ <code>{oid}</code> | {o['prod_name']} — {o.get('plan','?')} | <b>${o.get('price',0):.2f}</b> | {dt}")
             else:
                 lines.append(f"📊 <code>{oid}</code> | {o.get('label','?')} x{o.get('qty','?')} | <b>${o.get('price',0):.4f}</b> | {o.get('status','?')} | {dt}")
         bot.send_message(uid, "\n".join(lines)[:4000], parse_mode="HTML", reply_markup=main_kb(uid)); return
@@ -2742,7 +2742,7 @@ def shutdown():
 @flask_app.route("/restart", methods=["GET", "POST"])
 def restart():
     if not _check_key():
-        return jsonify({"error": "Unauthorized — wrong key"}}, 403
+        return jsonify({"error": "Unauthorized — wrong key"}), 403
     logger.warning(f"{CLR_YELLOW}🔄 Restart requested via control server!{CLR_RESET}")
     try:
         bot.send_message(ADMIN_ID, "🔄 <b>Bot កំពុង Restart...</b>\nបានទទួល restart command តាម Control Server។", parse_mode="HTML")
