@@ -1066,7 +1066,7 @@ def cb_admaddall(call):
             [InlineKeyboardButton("🎵 TikTok",    callback_data="smmaddcat:TikTok"),
              InlineKeyboardButton("📘 Facebook",  callback_data="smmaddcat:Facebook")],
             [InlineKeyboardButton("📸 Instagram", callback_data="smmaddcat:Instagram"),
-             InlineKeyboardButton("▶️️ YouTube",   callback_data="smmaddcat:YouTube")],
+             InlineKeyboardButton("▶ YouTube",   callback_data="smmaddcat:YouTube")],
             [InlineKeyboardButton("📱 Telegram",  callback_data="smmaddcat:Telegram")],
             [InlineKeyboardButton("✏️ Custom Category", callback_data="smmaddcat:custom")],
         ])
@@ -1910,7 +1910,7 @@ def handle(message):
             dtype = f"{discount:.0f}%" if pct else f"${discount:.2f}"
             bot.send_message(uid,
                 f"✅ <b>Promo Code Created!</b>\n"
-                f"🎟️️ <code>{code}</code> — <b>{dtype}</b> | {uses} uses",
+                f"🎟 <code>{code}</code> — <b>{dtype}</b> | {uses} uses",
                 parse_mode="HTML", reply_markup=admin_kb()); return
 
         if step == "broadcast_msg":
@@ -2222,7 +2222,7 @@ def handle(message):
                 if plans:
                     for i, pl in enumerate(plans):
                         cnt   = _get_plan_stock_count(p["id"], i)
-                        alert = " ⚠️️" if 0 < cnt <= STOCK_ALERT_MIN else ""
+                        alert = " ⚠" if 0 < cnt <= STOCK_ALERT_MIN else ""
                         oos   = " ❌ អស់" if cnt == 0 else ""
                         lines.append(f"  • {pl['label']} — <b>{cnt}</b>{alert}{oos}")
                 else:
@@ -2604,14 +2604,10 @@ def handle(message):
     if text in ("👜 កាបូបលុយ", "👜 Wallet"):
         livechat_users.discard(uid)
         b = bal(uid)
-        my_deps = [(k, v) for k, v in store_deps.items()
-                   if v.get("uid") == uid_str]
-        pending   = sum(float(v.get("amount",0)) for _, v in my_deps if v.get("status")=="pending")
         bot.send_message(uid,
             f"👜 <b>{'កាបូបលុយ' if lang=='kh' else 'My Wallet'}</b>\n"
             f"━━━━━━━━━━━━━━━━━━\n"
             f"💳 សាច់ប្រាក់: <b>${b:.2f}</b>\n"
-            f"⏳ កំពុងរង់ចាំ: <b>${pending:.2f}</b>\n"
             f"━━━━━━━━━━━━━━━━━━\n"
             f"ចុច 💳 {'ដាក់ប្រាក់' if lang=='kh' else 'Top Up'} ដើម្បីដាក់លុយ",
             parse_mode="HTML", reply_markup=main_kb(uid)); return
