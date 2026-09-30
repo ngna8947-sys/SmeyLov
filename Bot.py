@@ -245,7 +245,7 @@ STRINGS = {
         "order_done":    "✅ Order placed successfully!",
         "deposit_ok":    "✅ Deposit successful!",
         "qr_expired":    "⏰ QR expired! Please top up again",
-        "qr_error":      "⚠️ QR Generate Error! Contact Admin",
+        "qr_error":      "⚠️️ QR Generate Error! Contact Admin",
         "order_notfound":"❌ Order not found!",
         "no_orders":     "❌ No orders yet!",
         "how_to_use": (
@@ -355,7 +355,7 @@ def main_kb(uid=None):
         kb.row("💳 Top Up",        "👜 Wallet",         "📜 History")
         kb.row("💬 Support",       "💡 How to Use",    "🌐 Language")
     else:
-        kb.row("🛍️️ ហាងឌីជីថល")
+        kb.row("🛍️ ហាងឌីជីថល")
         kb.row("📊 សេវាកម្ម SMM",  "📦 ការបញ្ជាទិញ")
         kb.row("💳 ដាក់ប្រាក់",    "👜 កាបូបលុយ",      "📜 ប្រវត្តិ")
         kb.row("💬 ជំនួយ Support", "💡 របៀបប្រើប្រាស់", "🌐 ភាសា / Language")
@@ -376,7 +376,7 @@ def admin_kb():
     kb.row("💸 បន្ថែមប្រាក់",   "💔 កាត់ប្រាក់")
     kb.row("━━━ 👥 អ្នកប្រើ ━━━")
     kb.row("👥 អ្នកប្រើប្រាស់",  "📊 ស្ថិតិ")
-    kb.row("🎟️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
+    kb.row("🎟️️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
     kb.row("⏱ ល្បឿន Poll",     "🔄 ធ្វើឱ្យទាន់សម័យ")
     return kb
 
@@ -1153,7 +1153,7 @@ def cb_plan(call):
     
     waiting[uid] = {"step": "order_qty", "prod_id": pid, "plan_idx": idx, "price": price}
     bot.send_message(uid,
-        f"🛍️️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
+        f"🛍️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"🔢 សូមបញ្ចូលចំនួន Account (លេខតែមួយ):\nSend a numeric count of accounts:",
         parse_mode="HTML", reply_markup=cancel_kb())
@@ -1765,7 +1765,6 @@ def handle(message):
         if target_uid:
             try:
                 bot.copy_message(chat_id=int(target_uid), from_chat_id=ADMIN_ID, message_id=message.message_id)
-                # bot.message_reaction(ADMIN_ID, message.message_id, reaction=[{"type": "emoji", "emoji": "👍"}])
             except Exception as e:
                 bot.send_message(ADMIN_ID, f"❌ បញ្ជូនសារមិនទាន់បានទេ: {e}")
             return
@@ -1794,8 +1793,6 @@ def handle(message):
             
             livechat_sessions[str(sent_admin_msg.message_id)] = uid_str
             _save(LIVECHAT_FILE, livechat_sessions)
-            
-            # bot.message_reaction(uid, message.message_id, reaction=[{"type": "emoji", "emoji": "✍️"}])
         except Exception as e:
             logger.error(f"{CLR_RED}LiveChat error: {e}{CLR_RESET}")
         return
@@ -2575,7 +2572,7 @@ def handle(message):
         except: pass
         return
 
-    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️ ហាង"):
+    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️ ហាង", "🛍 ហាងឌីជីថល", "🛍 ហាង"):
         livechat_users.discard(uid)
         bot.send_message(uid,
             "🛍️ <b>ហាងឌីជីថល</b>\n━━━━━━━━━━━━━━━━━━",
@@ -2745,7 +2742,7 @@ def shutdown():
 @flask_app.route("/restart", methods=["GET", "POST"])
 def restart():
     if not _check_key():
-        return jsonify({"error": "Unauthorized — wrong key"}), 403
+        return jsonify({"error": "Unauthorized — wrong key"}}, 403
     logger.warning(f"{CLR_YELLOW}🔄 Restart requested via control server!{CLR_RESET}")
     try:
         bot.send_message(ADMIN_ID, "🔄 <b>Bot កំពុង Restart...</b>\nបានទទួល restart command តាម Control Server។", parse_mode="HTML")
