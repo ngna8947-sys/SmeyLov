@@ -218,10 +218,8 @@ STRINGS = {
         "support_msg": (
             "💬 <b>ជំនួយ & ទំនាក់ទំនង Support</b>\n"
             "━━━━━━━━━━━━━━━━━━\n"
-            "💬 អ្នកអាចផ្ញើសារមកកាន់បូតនេះផ្ទាល់ដើម្បីជជែកជាមួយ Admin ឬក៏អាចទាក់ទងតាមរយៈ:\n"
-            "👥 <b>ចូលគ្រុប Telegram:</b> (ចុចប៊ូតុងខាងក្រោម)\n"
-            "👤 <b>ឆាតផ្ទាល់ជាមួយ Admin:</b> @SmeyLov008\n\n"
-            "👇 (ដើម្បីចាកចេញ សូមចុចប៊ូតុង Menu ខាងក្រោម)"
+            "💬 អ្នកអាចផ្ញើសារមកកាន់បូតនេះផ្ទាល់ដើម្បីជជែកជាមួយ Admin ឬក៏អាចទាក់ទងតាមរយៈប៊ូតុងខាងក្រោម៖\n"
+            "👤 <b>Admin Telegram:</b> @SmeyLov008"
         ),
         "fallback": "❓ ប្រើ Menu ខាងក្រោម",
     },
@@ -262,10 +260,8 @@ STRINGS = {
         "support_msg": (
             "💬 <b>Support & Contact</b>\n"
             "━━━━━━━━━━━━━━━━━━\n"
-            "💬 You can send a message here to chat with admin or reach us via:\n"
-            "👥 <b>Telegram Group:</b> (Click button below)\n"
-            "👤 <b>Admin Contact:</b> @SmeyLov008\n\n"
-            "👇 (To exit, click the Menu button below)"
+            "💬 You can send a message here to chat with admin or reach us via buttons below:\n"
+            "👤 <b>Admin Telegram:</b> @SmeyLov008"
         ),
         "fallback": "❓ Use the menu below",
     },
@@ -550,7 +546,7 @@ def _smm_get_categories():
     return cats
 
 def _smm_get_svcs_in_cat(cat):
-    return [(slug, s) for slug, s in smm_services.items() if s.get("category"] == cat]
+    return [(slug, s) for slug, s in smm_services.items() if s.get("category") == cat]
 
 def _smm_profit_pct(): return float(smm_profit.get("pct", 20))
 
@@ -696,7 +692,7 @@ def _watch_deposit(uid, uid_str, dep_id, amount, start_ts, sent_msg_id=None):
         time.sleep(5)
 
     dep = store_deps.get(dep_id)
-    if dep and dep.get("status"] == "pending":
+    if dep and dep.get("status") == "pending":
         dep["status"] = "expired"; _save(STORE_DEP_FILE, store_deps)
         try: bot.send_message(uid, "⏰ <b>QR ផុតកំណត់!</b> សូម top up ម្ដងទៀត", parse_mode="HTML")
         except: pass
@@ -967,7 +963,7 @@ def cb_dep(call):
     if val == "custom":
         waiting[uid] = {"step": "dep_custom"}
         bot.send_message(uid,
-            "✏️ <b>ផ្ញើចំនួន $ ដែលចង់ deposit:</b>" if lang=="kh" else
+            "✏️️ <b>ផ្ញើចំនួន $ ដែលចង់ deposit:</b>" if lang=="kh" else
             "✏️ <b>Send amount $ to deposit:</b>",
             parse_mode="HTML", reply_markup=cancel_kb())
         return
@@ -1003,7 +999,7 @@ def cb_manual_dep(call):
     total_credit = amount
 
     if action == "approve":
-        if dep.get("status"] == "confirmed":
+        if dep.get("status") == "confirmed":
             bot.answer_callback_query(call.id, "⚠️ សំណើនេះបានបញ្ជាក់រួចរាល់ហើយ!", show_alert=True)
             return
 
@@ -1072,7 +1068,7 @@ def cb_admaddall(call):
             [InlineKeyboardButton("📸 Instagram", callback_data="smmaddcat:Instagram"),
              InlineKeyboardButton("▶️ YouTube",   callback_data="smmaddcat:YouTube")],
             [InlineKeyboardButton("📱 Telegram",  callback_data="smmaddcat:Telegram")],
-            [InlineKeyboardButton("✏ Custom Category", callback_data="smmaddcat:custom")],
+            [InlineKeyboardButton("✏️ Custom Category", callback_data="smmaddcat:custom")],
         ])
         bot.send_message(uid, "➕ <b>ជ្រើសរើស Category សម្រាប់ SMM Service៖</b>", parse_mode="HTML", reply_markup=cats_kb)
 
@@ -1127,7 +1123,7 @@ def cb_plan(call):
     
     waiting[uid] = {"step": "order_qty", "prod_id": pid, "plan_idx": idx, "price": price}
     bot.send_message(uid,
-        f"🛍 <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
+        f"🛍️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"🔢 សូមបញ្ចូលចំនួន Account (លេខតែមួយ):\nSend a numeric count of accounts:",
         parse_mode="HTML", reply_markup=cancel_kb())
@@ -1228,7 +1224,7 @@ def cb_delsvc(call):
 
     if len(parts) == 3 and parts[1] == "cat":
         cat = parts[2]
-        to_del = [slug for slug, s in smm_services.items() if s.get("category"] == cat]
+        to_del = [slug for slug, s in smm_services.items() if s.get("category") == cat]
         for slug in to_del:
             smm_services.pop(slug, None)
         _save(SMM_SVC_FILE, smm_services)
@@ -2014,7 +2010,7 @@ def handle(message):
             bot.send_message(uid,
                 f"✅ <b>ឈ្មោះ Plan បានកែ!</b>\n"
                 f"📦 {p.get('icon','')} <b>{p['name']}</b>\n"
-                f"🏷️ <b>{old_label}</b> → <b>{new_label}</b>",
+                f"🏷️️ <b>{old_label}</b> → <b>{new_label}</b>",
                 parse_mode="HTML", reply_markup=admin_kb()); return
 
         if isinstance(step, dict) and step.get("step") == "edit_price_newplan_label":
@@ -2091,7 +2087,7 @@ def handle(message):
             waiting[uid] = {"step": "add_product_icon", "name": text}
             bot.send_message(uid, f"<b>{text}</b>\nផ្ញើ Icon emoji (ឧ: ✂️ ឬ 💎):", parse_mode="HTML"); return
 
-        if isinstance(step, dict) and step.get("step"] == "add_product_icon":
+        if isinstance(step, dict) and step.get("step") == "add_product_icon":
             waiting[uid] = {"step": "add_product_desc", "name": step["name"], "icon": text}
             bot.send_message(uid, "ផ្ញើ Description:"); return
 
@@ -2210,7 +2206,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status"]=="pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status")=="pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
@@ -2352,7 +2348,7 @@ def handle(message):
                     label = s.get("label", slug)[:30]
                     api_id = s.get("api_id", "?")
                     btns.append([InlineKeyboardButton(
-                        f"🗑️ [{api_id}] {label}",
+                        f"🗑️️ [{api_id}] {label}",
                         callback_data=f"delsvc:{slug}"
                     )])
                 btns.append([InlineKeyboardButton(
@@ -2368,7 +2364,7 @@ def handle(message):
         if text == "💰 ឆែកលុយ API":
             url = smm_api.get("url",""); key = smm_api.get("key","")
             if not url or not key:
-                bot.send_message(uid, "❌ SMM API មិនទាន់ set! ចូល ⚙️️ Set SMM API", reply_markup=admin_kb()); return
+                bot.send_message(uid, "❌ SMM API មិនទាន់ set! ចូល ⚙️ Set SMM API", reply_markup=admin_kb()); return
             try:
                 r = http.post(url, data={"key": key, "action": "balance"}, timeout=10)
                 d = r.json()
@@ -2597,7 +2593,7 @@ def handle(message):
     if text in ("💬 ជំនួយ Support", "💬 Support"):
         livechat_users.add(uid)
         
-        # បង្កើតប៊ូតុងចុចចូលគ្រុប (ជំនួស Link គ្រុបរបស់អ្នកនៅត្រង់ url) និងឆាតផ្ទាល់ជាមួយ Admin @SmeyLov008
+        # ប៊ូតុងចូលគ្រុប និងឆាតផ្ទាល់ជាមួយ Admin @SmeyLov008 (https://t.me/SmeyLov11)
         support_kb = InlineKeyboardMarkup([
             [InlineKeyboardButton("👥 ចូលក្នុងគ្រុប Telegram", url="https://t.me/your_group_link")],
             [InlineKeyboardButton("💬 ឆាតផ្ទាល់ជាមួយ Admin (@SmeyLov008)", url="https://t.me/SmeyLov11")]
@@ -2610,9 +2606,9 @@ def handle(message):
         livechat_users.discard(uid)
         b = bal(uid)
         my_deps = [(k, v) for k, v in store_deps.items()
-                   if v.get("uid"] == uid_str]
-        confirmed = sum(float(v.get("amount",0)) for _, v in my_deps if v.get("status"]=="confirmed")
-        pending   = sum(float(v.get("amount",0)) for _, v in my_deps if v.get("status"]=="pending")
+                   if v.get("uid") == uid_str]
+        confirmed = sum(float(v.get("amount",0)) for _, v in my_deps if v.get("status")=="confirmed")
+        pending   = sum(float(v.get("amount",0)) for _, v in my_deps if v.get("status")=="pending")
         bot.send_message(uid,
             f"👜 <b>{'កាបូបលុយ' if lang=='kh' else 'My Wallet'}</b>\n"
             f"━━━━━━━━━━━━━━━━━━\n"
