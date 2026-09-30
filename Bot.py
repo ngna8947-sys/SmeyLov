@@ -19,7 +19,7 @@ from telebot.types import (
 )
 from flask import Flask, request as flask_request, jsonify
 from requests.adapters import HTTPAdapter
-from urllib3.util.retry Retry
+from urllib3.util.retry import Retry
 
 # ─── COLOR CONSTANTS FOR TERMINAL ───
 CLR_RESET   = "\033[0m"
@@ -376,7 +376,7 @@ def admin_kb():
     kb.row("💸 បន្ថែមប្រាក់",   "💔 កាត់ប្រាក់")
     kb.row("━━━ 👥 អ្នកប្រើ ━━━")
     kb.row("👥 អ្នកប្រើប្រាស់",  "📊 ស្ថិតិ")
-    kb.row("🎟️️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
+    kb.row("🎟️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
     kb.row("⏱ ល្បឿន Poll",     "🔄 ធ្វើឱ្យទាន់សម័យ")
     return kb
 
@@ -850,7 +850,7 @@ def _place_store_order(uid, prod_id, plan_idx):
                 alert_txt = (
                     f"🚨 <b>Stock អស់ហើយ!</b>\n"
                     f"📦 {p.get('icon','')} {p['name']} — {plan['label']}\n"
-                    f"⚠️ ចូល ➕ បន្ថែមស្តុក ភ្លាម!"
+                    f"⚠️️ ចូល ➕ បន្ថែមស្តុក ភ្លាម!"
                 )
             bot.send_message(ADMIN_ID, alert_txt, parse_mode="HTML")
         except: pass
@@ -1153,7 +1153,7 @@ def cb_plan(call):
     
     waiting[uid] = {"step": "order_qty", "prod_id": pid, "plan_idx": idx, "price": price}
     bot.send_message(uid,
-        f"🛍️️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
+        f"🛍️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"🔢 សូមបញ្ចូលចំនួន Account (លេខតែមួយ):\nSend a numeric count of accounts:",
         parse_mode="HTML", reply_markup=cancel_kb())
@@ -2175,7 +2175,7 @@ def handle(message):
             cur_key = smm_api.get("key","❌ មិនទាន់ set")
             masked = cur_key[:6] + "****" + cur_key[-4:] if len(cur_key) > 10 else cur_key
             kb_api = InlineKeyboardMarkup([
-                [InlineKeyboardButton("✏️ កំណត់ URL + Key", callback_data="smmapi:setup")],
+                [InlineKeyboardButton("✏️️ កំណត់ URL + Key", callback_data="smmapi:setup")],
                 [InlineKeyboardButton("🔌 សាកល្បងភ្ជាប់", callback_data="smmapi:test")],
                 [InlineKeyboardButton("🗑️ លុប API", callback_data="smmapi:clear")],
             ])
@@ -2285,7 +2285,7 @@ def handle(message):
                 btns.append([InlineKeyboardButton(
                     f"{p.get('icon','📦')} {p['name']}", callback_data=f"editprice_prod:{p['id']}")])
             bot.send_message(uid,
-                "✏️ <b>កែតម្លៃ / Plan</b>\n━━━━━━━━━━━━━━━━━━\nជ្រើសផលិតផល:",
+                "✏️️ <b>កែតម្លៃ / Plan</b>\n━━━━━━━━━━━━━━━━━━\nជ្រើសផលិតផល:",
                 parse_mode="HTML", reply_markup=InlineKeyboardMarkup(btns)); return
 
         if text == "💸 បន្ថែមប្រាក់":
@@ -2572,7 +2572,7 @@ def handle(message):
         except: pass
         return
 
-    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️️ ហាង", "🛍 ហាងឌីជីថល", "🛍 ហាង"):
+    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍 ហាង", "🛍 ហាងឌីជីថល", "🛍 ហាង"):
         livechat_users.discard(uid)
         bot.send_message(uid,
             "🛍️ <b>ហាងឌីជីថល</b>\n━━━━━━━━━━━━━━━━━━",
@@ -2651,7 +2651,7 @@ def handle(message):
         for oid, o in sorted(my_orders.items(), key=lambda x: x[1].get("ts",0), reverse=True)[:15]:
             dt = datetime.datetime.fromtimestamp(o.get("ts",0)).strftime("%d/%m %H:%M")
             if "prod_name" in o:
-                lines.append(f"🛍️️ <code>{oid}</code> | {o['prod_name']} — {o.get('plan','?')} | <b>${o.get('price',0):.2f}</b> | {dt}")
+                lines.append(f"🛍️ <code>{oid}</code> | {o['prod_name']} — {o.get('plan','?')} | <b>${o.get('price',0):.2f}</b> | {dt}")
             else:
                 lines.append(f"📊 <code>{oid}</code> | {o.get('label','?')} x{o.get('qty','?')} | <b>${o.get('price',0):.4f}</b> | {o.get('status','?')} | {dt}")
         bot.send_message(uid, "\n".join(lines)[:4000], parse_mode="HTML", reply_markup=main_kb(uid)); return
