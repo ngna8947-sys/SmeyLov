@@ -189,8 +189,7 @@ STRINGS = {
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
             "📊 Check Stats & Orders\n\n"
-            "ចុច /start - ដើម្បីចាប់ផ្តើមការប្រើប្រាស់ Bot នេះ\n\n"
-            "សូមរីករាយនឹងការប្រើប្រាស់ 🚀"
+            "👇 សូមជ្រើសរើសភាសាខាងក្រោម៖"
         ),
         "select_lang":   "🌐 ជ្រើសរើសភាសា / Select Language:",
         "lang_set":      "✅ ភាសាត្រូវបានប្ដូរទៅជា ខ្មែរ។",
@@ -231,8 +230,7 @@ STRINGS = {
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
             "📊 Check Stats & Orders\n\n"
-            "Type /start - To start using this bot\n\n"
-            "Enjoy using it 🚀"
+            "👇 Please select your preferred language below:"
         ),
         "select_lang":   "🌐 Select Language:",
         "lang_set":      "✅ Language changed to English.",
@@ -371,7 +369,7 @@ def admin_kb():
     kb.row("💸 បន្ថែមប្រាក់",   "💔 កាត់ប្រាក់")
     kb.row("━━━ 👥 អ្នកប្រើ ━━━")
     kb.row("👥 អ្នកប្រើប្រាស់",  "📊 ស្ថិតិ")
-    kb.row("🎟️️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
+    kb.row("🎟️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
     kb.row("⏱ ល្បឿន Poll",     "🔄 ធ្វើឱ្យទាន់សម័យ")
     return kb
 
@@ -892,7 +890,7 @@ def is_banned(uid):
     return bool(users_db.get(str(uid), {}).get("banned", False))
 
 # ═══════════════════════════════════════════════════════════
-#  START & WELCOME WITH GITHUB PHOTO
+#  START & WELCOME WITH GITHUB PHOTO (FIXED DOUBLE MESSAGE)
 # ═══════════════════════════════════════════════════════════
 @bot.message_handler(commands=["start"])
 def cmd_start(message):
@@ -900,10 +898,14 @@ def cmd_start(message):
     waiting.pop(uid, None)
     livechat_users.discard(uid)
     _track_user(message)
+    
     if is_banned(uid):
-        bot.send_message(uid, t(uid, "banned")); return
+        bot.send_message(uid, t(uid, "banned"))
+        return
+        
     if uid == ADMIN_ID:
-        bot.send_message(uid,
+        bot.send_message(
+            uid,
             f"🤖 <b>Panel Admin — Kairozen All-in-One</b>\n"
             f"━━━━━━━━━━━━━━━━━━\n"
             f"🆔 <code>{ADMIN_ID}</code>\n"
@@ -911,28 +913,13 @@ def cmd_start(message):
             f"🔥 Global Discount: <b>{'ON (' + str(discount_config.get('pct')) + '%)' if discount_config.get('active') else 'OFF'}</b>\n"
             f"⏱ Poll: <b>{smm_poll.get('interval',5)}s</b>\n"
             f"━━━━━━━━━━━━━━━━━━",
-            parse_mode="HTML", reply_markup=admin_kb())
+            parse_mode="HTML", reply_markup=admin_kb()
+        )
         return
-    if str(uid) not in user_lang:
-        bot.send_message(uid,
-            "🌐 <b>ជ្រើសរើសភាសា / Select Language</b>",
-            parse_mode="HTML", reply_markup=lang_select_kb())
-        return
-    _show_welcome(uid)
 
-def _show_welcome(uid):
-    user_name = users_db.get(str(uid), {}).get("name", "User")
+    user_name = message.from_user.first_name or "User"
     caption = t(uid, "welcome", user_name)
-    
-    # 🔗 រូបភាពពី GitHub Raw Link របស់អ្នក
     photo_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
-    
-    markup = InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("🇰🇭 ខ្មែរ", callback_data="setlang:kh"),
-            InlineKeyboardButton("🇬🇧 English", callback_data="setlang:en")
-        ]
-    ])
 
     try:
         bot.send_photo(
@@ -940,11 +927,10 @@ def _show_welcome(uid):
             photo=photo_url,
             caption=caption,
             parse_mode="HTML",
-            reply_markup=markup
+            reply_markup=lang_select_kb()
         )
-        bot.send_message(uid, "👇 សូមជ្រើសរើសមីនុយខាងក្រោម៖", reply_markup=main_kb(uid))
     except Exception:
-        bot.send_message(uid, caption, parse_mode="HTML", reply_markup=main_kb(uid))
+        bot.send_message(uid, caption, parse_mode="HTML", reply_markup=lang_select_kb())
 
 # ═══════════════════════════════════════════════════════════
 #  CALLBACKS
@@ -956,9 +942,27 @@ def cb_setlang(call):
     user_lang[str(uid)] = lang
     _save(LANG_FILE, user_lang)
     bot.answer_callback_query(call.id, t(uid, "lang_set"))
-    try: bot.delete_message(uid, call.message.message_id)
-    except: pass
-    _show_welcome(uid)
+    
+    try:
+        bot.delete_message(uid, call.message.message_id)
+    except:
+        pass
+        
+    # បន្ទាប់ពីជ្រើសរើសភាសារួច បង្ហាញ Welcome ព្រមទាំង Menu ពេញលេញជូនអតិថិជន
+    b = bal(uid)
+    caption = t(uid, "welcome", call.from_user.first_name or "User") + f"\n\n💰 Balance: <b>${b:.2f}</b>"
+    photo_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
+    
+    try:
+        bot.send_photo(
+            chat_id=uid,
+            photo=photo_url,
+            caption=caption,
+            parse_mode="HTML",
+            reply_markup=main_kb(uid)
+        )
+    except Exception:
+        bot.send_message(uid, caption, parse_mode="HTML", reply_markup=main_kb(uid))
 
 @bot.callback_query_handler(func=lambda c: c.data.startswith("poll:"))
 def cb_poll(call):
@@ -2371,7 +2375,7 @@ def handle(message):
                         callback_data=f"delsvc:{slug}"
                     )])
                 btns.append([InlineKeyboardButton(
-                    f"🗑️️ លុបទាំងអស់ {cat}",
+                    f"🗑️ លុបទាំងអស់ {cat}",
                     callback_data=f"delsvc:cat:{cat}"
                 )])
                 bot.send_message(uid,
@@ -2383,7 +2387,7 @@ def handle(message):
         if text == "💰 ឆែកលុយ API":
             url = smm_api.get("url",""); key = smm_api.get("key","")
             if not url or not key:
-                bot.send_message(uid, "❌ SMM API មិនទាន់ set! ចូល ⚙️ Set SMM API", reply_markup=admin_kb()); return
+                bot.send_message(uid, "❌ SMM API មិនទាន់ set! ចូល ⚙️️ Set SMM API", reply_markup=admin_kb()); return
             try:
                 r = http.post(url, data={"key": key, "action": "balance"}, timeout=10)
                 d = r.json()
