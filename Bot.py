@@ -641,7 +641,7 @@ def _watch_deposit(uid, uid_str, dep_id, amount, start_ts, sent_msg_id=None):
     
     while time.time() < deadline:
         dep = store_deps.get(dep_id)
-        if not dep or dep.get("status"] != "confirmed":
+        if not dep or dep.get("status") != "confirmed":
             md5 = dep.get("md5", "") if dep else ""
             if md5 and _check_bakong(md5, amount, start_ts):
                 bonus = float(dep.get("bonus", 0))
@@ -994,7 +994,7 @@ def cb_dep(call):
         waiting[uid] = {"step": "dep_custom"}
         bot.send_message(uid,
             "✏ <b>ផ្ញើចំនួន $ ដែលចង់ deposit:</b>" if lang=="kh" else
-            "✏️️ <b>Send amount $ to deposit:</b>",
+            "✏️ <b>Send amount $ to deposit:</b>",
             parse_mode="HTML", reply_markup=cancel_kb())
         return
 
@@ -1098,7 +1098,7 @@ def cb_admaddall(call):
             [InlineKeyboardButton("📸 Instagram", callback_data="smmaddcat:Instagram"),
              InlineKeyboardButton("▶ YouTube",   callback_data="smmaddcat:YouTube")],
             [InlineKeyboardButton("📱 Telegram",  callback_data="smmaddcat:Telegram")],
-            [InlineKeyboardButton("✏️️ Custom Category", callback_data="smmaddcat:custom")],
+            [InlineKeyboardButton("✏️ Custom Category", callback_data="smmaddcat:custom")],
         ])
         bot.send_message(uid, "➕ <b>ជ្រើសរើស Category សម្រាប់ SMM Service៖</b>", parse_mode="HTML", reply_markup=cats_kb)
 
@@ -1717,7 +1717,7 @@ def cb_adminpromo(call):
         promos.pop(code.upper(), None)
         _save(PROMO_FILE, promos)
         try:
-            bot.edit_message_text(f"🗑️ Promo <b>{code}</b> លុបហើយ!",
+            bot.edit_message_text(f"🗑️️ Promo <b>{code}</b> លុបហើយ!",
                                   chat_id=uid, message_id=call.message.message_id, parse_mode="HTML")
         except: pass
 
@@ -2236,7 +2236,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status"]=="pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
@@ -2394,7 +2394,7 @@ def handle(message):
         if text == "💰 ឆែកលុយ API":
             url = smm_api.get("url",""); key = smm_api.get("key","")
             if not url or not key:
-                bot.send_message(uid, "❌ SMM API មិនទាន់ set! ចូល ⚙️️ Set SMM API", reply_markup=admin_kb()); return
+                bot.send_message(uid, "❌ SMM API មិនទាន់ set! ចូល ⚙️ Set SMM API", reply_markup=admin_kb()); return
             try:
                 r = http.post(url, data={"key": key, "action": "balance"}, timeout=10)
                 d = r.json()
@@ -2575,7 +2575,7 @@ def handle(message):
         except: pass
         return
 
-    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️ ហាង"):
+    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️️ ហាង"):
         livechat_users.discard(uid)
         bot.send_message(uid,
             "🛍️ <b>ហាងឌីជីថល</b>\n━━━━━━━━━━━━━━━━━━",
@@ -2615,7 +2615,7 @@ def handle(message):
         lines = [f"📦 <b>បញ្ជាទិញ</b>\n━━━━━━━━━━━━━━━━━━"]
         for oid, o in sorted(my_orders.items(), key=lambda x: x[1].get("ts",0), reverse=True)[:10]:
             if "prod_name" in o:
-                lines.append(f"🛍️ <code>{oid}</code> — {o['prod_name']} | ${o.get('price',0):.2f}")
+                lines.append(f"🛍️️ <code>{oid}</code> — {o['prod_name']} | ${o.get('price',0):.2f}")
             else:
                 lines.append(f"📊 <code>{oid}</code> — {o.get('label','?')} x{o.get('qty','?')} | ${o.get('price',0):.4f} | {o.get('status','?')}")
         bot.send_message(uid, "\n".join(lines), parse_mode="HTML", reply_markup=main_kb(uid)); return
