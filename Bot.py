@@ -963,7 +963,7 @@ def cb_dep(call):
     if val == "custom":
         waiting[uid] = {"step": "dep_custom"}
         bot.send_message(uid,
-            "✏️️ <b>ផ្ញើចំនួន $ ដែលចង់ deposit:</b>" if lang=="kh" else
+            "✏ <b>ផ្ញើចំនួន $ ដែលចង់ deposit:</b>" if lang=="kh" else
             "✏️ <b>Send amount $ to deposit:</b>",
             parse_mode="HTML", reply_markup=cancel_kb())
         return
@@ -1066,7 +1066,7 @@ def cb_admaddall(call):
             [InlineKeyboardButton("🎵 TikTok",    callback_data="smmaddcat:TikTok"),
              InlineKeyboardButton("📘 Facebook",  callback_data="smmaddcat:Facebook")],
             [InlineKeyboardButton("📸 Instagram", callback_data="smmaddcat:Instagram"),
-             InlineKeyboardButton("▶️ YouTube",   callback_data="smmaddcat:YouTube")],
+             InlineKeyboardButton("▶️️ YouTube",   callback_data="smmaddcat:YouTube")],
             [InlineKeyboardButton("📱 Telegram",  callback_data="smmaddcat:Telegram")],
             [InlineKeyboardButton("✏️ Custom Category", callback_data="smmaddcat:custom")],
         ])
@@ -1910,7 +1910,7 @@ def handle(message):
             dtype = f"{discount:.0f}%" if pct else f"${discount:.2f}"
             bot.send_message(uid,
                 f"✅ <b>Promo Code Created!</b>\n"
-                f"🎟️ <code>{code}</code> — <b>{dtype}</b> | {uses} uses",
+                f"🎟️️ <code>{code}</code> — <b>{dtype}</b> | {uses} uses",
                 parse_mode="HTML", reply_markup=admin_kb()); return
 
         if step == "broadcast_msg":
@@ -2010,7 +2010,7 @@ def handle(message):
             bot.send_message(uid,
                 f"✅ <b>ឈ្មោះ Plan បានកែ!</b>\n"
                 f"📦 {p.get('icon','')} <b>{p['name']}</b>\n"
-                f"🏷️️ <b>{old_label}</b> → <b>{new_label}</b>",
+                f"🏷 <b>{old_label}</b> → <b>{new_label}</b>",
                 parse_mode="HTML", reply_markup=admin_kb()); return
 
         if isinstance(step, dict) and step.get("step") == "edit_price_newplan_label":
@@ -2222,7 +2222,7 @@ def handle(message):
                 if plans:
                     for i, pl in enumerate(plans):
                         cnt   = _get_plan_stock_count(p["id"], i)
-                        alert = " ⚠️" if 0 < cnt <= STOCK_ALERT_MIN else ""
+                        alert = " ⚠️️" if 0 < cnt <= STOCK_ALERT_MIN else ""
                         oos   = " ❌ អស់" if cnt == 0 else ""
                         lines.append(f"  • {pl['label']} — <b>{cnt}</b>{alert}{oos}")
                 else:
@@ -2348,7 +2348,7 @@ def handle(message):
                     label = s.get("label", slug)[:30]
                     api_id = s.get("api_id", "?")
                     btns.append([InlineKeyboardButton(
-                        f"🗑️️ [{api_id}] {label}",
+                        f"🗑 [{api_id}] {label}",
                         callback_data=f"delsvc:{slug}"
                     )])
                 btns.append([InlineKeyboardButton(
@@ -2593,7 +2593,6 @@ def handle(message):
     if text in ("💬 ជំនួយ Support", "💬 Support"):
         livechat_users.add(uid)
         
-        # ប៊ូតុងចូលគ្រុប និងឆាតផ្ទាល់ជាមួយ Admin @SmeyLov008 (https://t.me/SmeyLov11)
         support_kb = InlineKeyboardMarkup([
             [InlineKeyboardButton("👥 ចូលក្នុងគ្រុប Telegram", url="https://t.me/your_group_link")],
             [InlineKeyboardButton("💬 ឆាតផ្ទាល់ជាមួយ Admin (@SmeyLov008)", url="https://t.me/SmeyLov11")]
@@ -2607,13 +2606,11 @@ def handle(message):
         b = bal(uid)
         my_deps = [(k, v) for k, v in store_deps.items()
                    if v.get("uid") == uid_str]
-        confirmed = sum(float(v.get("amount",0)) for _, v in my_deps if v.get("status")=="confirmed")
         pending   = sum(float(v.get("amount",0)) for _, v in my_deps if v.get("status")=="pending")
         bot.send_message(uid,
             f"👜 <b>{'កាបូបលុយ' if lang=='kh' else 'My Wallet'}</b>\n"
             f"━━━━━━━━━━━━━━━━━━\n"
             f"💳 សាច់ប្រាក់: <b>${b:.2f}</b>\n"
-            f"✅ សរុបដាក់: <b>${confirmed:.2f}</b>\n"
             f"⏳ កំពុងរង់ចាំ: <b>${pending:.2f}</b>\n"
             f"━━━━━━━━━━━━━━━━━━\n"
             f"ចុច 💳 {'ដាក់ប្រាក់' if lang=='kh' else 'Top Up'} ដើម្បីដាក់លុយ",
