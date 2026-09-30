@@ -193,7 +193,7 @@ STRINGS = {
             "សូមរីករាយនឹងការប្រើប្រាស់ 🚀"
         ),
         "select_lang":   "🌐 ជ្រើសរើសភាសា / Select Language:",
-        "lang_set":      "✅ ភាសាត្រូវបានប្ដូរទៅជា ខ្មែររ",
+        "lang_set":      "✅ ភាសាត្រូវបានប្ដូរទៅជា ខ្មែរ។",
         "menu":          "🏠 ត្រឡប់ Menu ដើម",
         "banned":        "🚫 គណនីរបស់អ្នកត្រូវបាន ban!",
         "cancel_ok":     "🏠 Menu",
@@ -371,7 +371,7 @@ def admin_kb():
     kb.row("💸 បន្ថែមប្រាក់",   "💔 កាត់ប្រាក់")
     kb.row("━━━ 👥 អ្នកប្រើ ━━━")
     kb.row("👥 អ្នកប្រើប្រាស់",  "📊 ស្ថិតិ")
-    kb.row("🎟️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
+    kb.row("🎟️️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
     kb.row("⏱ ល្បឿន Poll",     "🔄 ធ្វើឱ្យទាន់សម័យ")
     return kb
 
@@ -546,7 +546,7 @@ def _smm_get_categories():
     return cats
 
 def _smm_get_svcs_in_cat(cat):
-    return [(slug, s) for slug, s in smm_services.items() if s.get("category"] == cat]
+    return [(slug, s) for slug, s in smm_services.items() if s.get("category") == cat]
 
 def _smm_profit_pct(): return float(smm_profit.get("pct", 20))
 
@@ -2371,7 +2371,7 @@ def handle(message):
                         callback_data=f"delsvc:{slug}"
                     )])
                 btns.append([InlineKeyboardButton(
-                    f"🗑️ លុបទាំងអស់ {cat}",
+                    f"🗑️️ លុបទាំងអស់ {cat}",
                     callback_data=f"delsvc:cat:{cat}"
                 )])
                 bot.send_message(uid,
@@ -2564,7 +2564,7 @@ def handle(message):
         except: pass
         return
 
-    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️️ ហាង"):
+    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️ ហាង"):
         livechat_users.discard(uid)
         bot.send_message(uid,
             "🛍️ <b>ហាងឌីជីថល</b>\n━━━━━━━━━━━━━━━━━━",
