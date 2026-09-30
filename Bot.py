@@ -183,15 +183,17 @@ http = _make_session()
 STRINGS = {
     "kh": {
         "welcome": (
-            "👋 សួស្ដីស្វាគមន៍មកកាន់ <b>Smey Lov</b> 🤖\n\n"
+            "👋 សួស្ដី {name}!\n\n"
+            "សូមស្វាគមន៍មកកាន់ <b>Smey Lov</b> 🤖\n\n"
             "💡 អ្នកអាចប្រើ Bot របស់យើងសម្រាប់:\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
             "📊 Check Stats & Orders\n\n"
-            "💰 សាច់ប្រាក់ក្នុងកាបូប: <b>${:.2f}</b>"
+            "ចុច /start - ដើម្បីចាប់ផ្តើមការប្រើប្រាស់ Bot នេះ\n\n"
+            "សូមរីករាយនឹងការប្រើប្រាស់ 🚀"
         ),
         "select_lang":   "🌐 ជ្រើសរើសភាសា / Select Language:",
-        "lang_set":      "✅ ភាសាត្រូវបានផ្លាស់ប្ដូរ!",
+        "lang_set":      "✅ ភាសាត្រូវបានប្ដូរទៅជា ខ្មែររ",
         "menu":          "🏠 ត្រឡប់ Menu ដើម",
         "banned":        "🚫 គណនីរបស់អ្នកត្រូវបាន ban!",
         "cancel_ok":     "🏠 Menu",
@@ -223,15 +225,17 @@ STRINGS = {
     },
     "en": {
         "welcome": (
-            "👋 Welcome to <b>Smey Lov</b> 🤖\n\n"
+            "👋 Welcome {name}!\n\n"
+            "Welcome to <b>Smey Lov</b> 🤖\n\n"
             "💡 You can use our bot for:\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
             "📊 Check Stats & Orders\n\n"
-            "💰 Balance: <b>${:.2f}</b>"
+            "Type /start - To start using this bot\n\n"
+            "Enjoy using it 🚀"
         ),
         "select_lang":   "🌐 Select Language:",
-        "lang_set":      "✅ Language changed!",
+        "lang_set":      "✅ Language changed to English.",
         "menu":          "🏠 Back to Menu",
         "banned":        "🚫 Your account has been banned!",
         "cancel_ok":     "🏠 Menu",
@@ -367,7 +371,7 @@ def admin_kb():
     kb.row("💸 បន្ថែមប្រាក់",   "💔 កាត់ប្រាក់")
     kb.row("━━━ 👥 អ្នកប្រើ ━━━")
     kb.row("👥 អ្នកប្រើប្រាស់",  "📊 ស្ថិតិ")
-    kb.row("🎟️️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
+    kb.row("🎟️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
     kb.row("⏱ ល្បឿន Poll",     "🔄 ធ្វើឱ្យទាន់សម័យ")
     return kb
 
@@ -542,7 +546,7 @@ def _smm_get_categories():
     return cats
 
 def _smm_get_svcs_in_cat(cat):
-    return [(slug, s) for slug, s in smm_services.items() if s.get("category") == cat]
+    return [(slug, s) for slug, s in smm_services.items() if s.get("category"] == cat]
 
 def _smm_profit_pct(): return float(smm_profit.get("pct", 20))
 
@@ -833,7 +837,7 @@ def _place_store_order(uid, prod_id, plan_idx):
     if remaining <= STOCK_ALERT_MIN:
         try:
             alert_txt = (
-                f"⚠️️ <b>ជូនដំណឹង Stock!</b>\n"
+                f"⚠️ <b>ជូនដំណឹង Stock!</b>\n"
                 f"📦 {p.get('icon','')} {p['name']} — {plan['label']}\n"
                 f"🔢 នៅសល់: <b>{remaining}</b>"
             )
@@ -917,8 +921,8 @@ def cmd_start(message):
     _show_welcome(uid)
 
 def _show_welcome(uid):
-    b = bal(uid)
-    caption = t(uid, "welcome", b)
+    user_name = users_db.get(str(uid), {}).get("name", "User")
+    caption = t(uid, "welcome", user_name)
     
     # 🔗 រូបភាពពី GitHub Raw Link របស់អ្នក
     photo_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
@@ -1689,7 +1693,7 @@ def cb_adminpromo(call):
     if action == "add":
         waiting[uid] = "promo_add_code"
         bot.send_message(uid,
-            "🎟️️ <b>បន្ថែម Promo Code</b>\n"
+            "🎟️ <b>បន្ថែម Promo Code</b>\n"
             "━━━━━━━━━━━━━━━━━━\n"
             "ផ្ញើ: <code>CODE DISCOUNT TYPE USES</code>\n"
             "Type: <b>pct</b> (%) ឬ <b>fix</b> ($)\n"
@@ -2560,7 +2564,7 @@ def handle(message):
         except: pass
         return
 
-    if text in ("🛍️ Shop", "🛍️️ ហាងឌីជីថល", "🛍️ ហាង"):
+    if text in ("🛍️ Shop", "🛍️ ហាងឌីជីថល", "🛍️️ ហាង"):
         livechat_users.discard(uid)
         bot.send_message(uid,
             "🛍️ <b>ហាងឌីជីថល</b>\n━━━━━━━━━━━━━━━━━━",
