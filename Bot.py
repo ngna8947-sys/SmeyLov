@@ -2,8 +2,8 @@
 """
 ╔══════════════════════════════════════════════════════════════╗
 ║     Kairozen All-in-One Bot v4 — カイロゼン                  ║
-║     ហាង + SMM Panel · ដាក់លុយ KHQR · Top Up Game Menu       ║
-║     Global Discount · Panel Admin · Promo Code              ║
+║     ហាង + SMM Panel · ដាក់លុយ KHQR                           ║
+║     Global Discount · Panel Admin                         ║
 ║     Compatible: Python 3.10+ · Termux / Pydroid 3         ║
 ╚══════════════════════════════════════════════════════════════╝
 ដំឡើង:
@@ -147,57 +147,20 @@ waiting         = {}   # uid -> step/dict
 lang_cooldown   = {}
 livechat_users  = set() # uid set of users currently in live chat mode
 
-# Default products including Mobile Legends, Free Fire KH/SG, Roblox, and PUBG Mobile
 if not products:
     products = [
-        {"id": "mobilelegends", "name": "Mobile Legends", "icon": "⚔️",
-         "desc": "MLBB Top Up · Delivery via User ID & Zone ID",
+        {"id": "netflix", "name": "Netflix Premium", "icon": "🎬",
+         "desc": "Netflix 4K UHD Account · Delivery via Auto Stock",
          "plans": [
-             {"label": "86 Diamonds", "price": 1.20},
-             {"label": "172 Diamonds", "price": 2.40},
-             {"label": "257 Diamonds", "price": 3.60},
-             {"label": "706 Diamonds", "price": 9.50}
+             {"label": "1 Month (1 Profile)", "price": 2.50},
+             {"label": "1 Month (Full Account)", "price": 8.00}
          ]},
-        {"id": "freefire", "name": "Free Fire KH/SG", "icon": "💎",
-         "desc": "Free Fire KH/SG Top Up · Delivery via User ID",
+        {"id": "spotify", "name": "Spotify Premium", "icon": "🎧",
+         "desc": "Spotify Individual Upgrade · Fast Delivery",
          "plans": [
-             {"label": "Weekly Pass", "price": 1.54},
-             {"label": "Monthly Membership", "price": 7.59},
-             {"label": "Weekly Lite", "price": 0.31},
-             {"label": "20 Diamonds", "price": 0.18},
-             {"label": "40 Diamonds", "price": 0.36},
-             {"label": "60 Diamonds", "price": 0.51},
-             {"label": "100 Diamonds", "price": 0.87},
-             {"label": "160 Diamonds", "price": 1.37},
-             {"label": "205 Diamonds", "price": 1.75},
-             {"label": "420 Diamonds", "price": 3.51},
-             {"label": "650 Diamonds", "price": 5.39},
-             {"label": "840 Diamonds", "price": 6.98},
-             {"label": "1100 Diamonds", "price": 8.79},
-             {"label": "2250 Diamonds", "price": 17.85},
-             {"label": "3350 Diamonds", "price": 25.79},
-             {"label": "4500 Diamonds", "price": 33.85},
-             {"label": "4765 Diamonds", "price": 37.19},
-             {"label": "5600 Diamonds", "price": 43.59},
-             {"label": "6700 Diamonds", "price": 50.79},
-             {"label": "7650 Diamonds", "price": 58.98},
-             {"label": "11500 Diamonds", "price": 87.89}
-         ]},
-        {"id": "roblox", "name": "Roblox Robux", "icon": "🟥",
-         "desc": "Roblox Robux Top Up · Delivery via Username",
-         "plans": [
-             {"label": "400 Robux", "price": 4.99},
-             {"label": "800 Robux", "price": 9.99},
-             {"label": "1700 Robux", "price": 19.99}
-         ]},
-        {"id": "pubgmobile", "name": "PUBG Mobile", "icon": "🔫",
-         "desc": "PUBG Mobile UC Top Up · Delivery via Player ID",
-         "plans": [
-             {"label": "60 UC", "price": 0.99},
-             {"label": "325 UC", "price": 4.99},
-             {"label": "660 UC", "price": 9.99},
-             {"label": "1800 UC", "price": 24.99}
-         ]},
+             {"label": "1 Month Individual", "price": 1.50},
+             {"label": "3 Months Individual", "price": 4.00}
+         ]}
     ]
     _save(PRODUCTS_FILE, products)
 
@@ -253,9 +216,11 @@ STRINGS = {
             "3️⃣ ចុច <b>📊 សេវាកម្ម SMM</b> → Platform → សេវា → ចំនួន → ផ្ញើ Link[cite: 1]"
         ),
         "support_msg": (
-            "💬 <b>Live Chat (ជជែកផ្ទាល់ជាមួយ Admin)</b>\n"
+            "💬 <b>ជំនួយ & ទំនាក់ទំនង Support</b>\n"
             "━━━━━━━━━━━━━━━━━━\n"
-            "💬 សូមផ្ញើសារ ឬបញ្ហាដែលអ្នកចង់សួរមកទីនេះបាន Admin នឹងតបតទៅវិញក្នុងពេលឆាប់ៗនេះ!\n"
+            "💬 អ្នកអាចផ្ញើសារមកកាន់បូតនេះផ្ទាល់ដើម្បីជជែកជាមួយ Admin ឬក៏អាចទាក់ទងតាមរយៈ:\n"
+            "👥 <b>ចូលគ្រុប Telegram:</b> (ចុចប៊ូតុងខាងក្រោម)\n"
+            "👤 <b>ឆាតផ្ទាល់ជាមួយ Admin:</b> @SmeyLov008\n\n"
             "👇 (ដើម្បីចាកចេញ សូមចុចប៊ូតុង Menu ខាងក្រោម)"
         ),
         "fallback": "❓ ប្រើ Menu ខាងក្រោម",
@@ -295,9 +260,11 @@ STRINGS = {
             "3️⃣ Tap <b>📊 SMM Services</b> → Platform → Service → Qty → Send Link[cite: 1]"
         ),
         "support_msg": (
-            "💬 <b>Live Chat with Admin</b>\n"
+            "💬 <b>Support & Contact</b>\n"
             "━━━━━━━━━━━━━━━━━━\n"
-            "💬 Please send your message or question here, and an admin will reply to you shortly!\n"
+            "💬 You can send a message here to chat with admin or reach us via:\n"
+            "👥 <b>Telegram Group:</b> (Click button below)\n"
+            "👤 <b>Admin Contact:</b> @SmeyLov008\n\n"
             "👇 (To exit, click the Menu button below)"
         ),
         "fallback": "❓ Use the menu below",
@@ -396,7 +363,6 @@ def main_kb(uid=None):
 def admin_kb():
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
     kb.row("🛍️ ផលិតផល",       "📦 ការបញ្ជាទិញ")
-    kb.row("💎 គ្រប់គ្រងហ្គេម",   "✏️ កែតម្លៃហ្គេម")
     kb.row("📦 ស្តុក",         "➕ បន្ថែមស្តុក",    "➕ បន្ថែមផលិតផល")
     kb.row("➕ បន្ថែមគ្រប់សេវាកម្ម", "🔥 បញ្ចុះតម្លៃទាំងអស់")
     kb.row("✏️ កែតម្លៃ",       "💳 ប្រាក់បញ្ញើ")
@@ -435,17 +401,8 @@ def deposit_amt_kb(uid=None, promo_code=None):
             btns.append(row); row = []
     if row: btns.append(row)
     btns.append([InlineKeyboardButton(
-        "✏️ ផ្ទាល់ខ្លួន" if lang=="kh" else "✏️️ Custom",
+        "✏️ ផ្ទាល់ខ្លួន" if lang=="kh" else "✏ Custom",
         callback_data="dep:custom")])
-    return InlineKeyboardMarkup(btns)
-
-def game_menu_kb():
-    btns = []
-    game_ids = ["mobilelegends", "freefire", "roblox", "pubgmobile"]
-    game_list = [p for p in products if p["id"] in game_ids]
-    for g in game_list:
-        btns.append([InlineKeyboardButton(f"{g.get('icon','🎮')} {g['name']}", callback_data=f"game_sel:{g['id']}")])
-    btns.append([InlineKeyboardButton("🔙 Back", callback_data="back:main")])
     return InlineKeyboardMarkup(btns)
 
 def smm_cat_kb():
@@ -509,9 +466,7 @@ def smm_qty_kb(slug, s):
 
 def products_kb():
     btns = []
-    game_ids = ["mobilelegends", "freefire", "roblox", "pubgmobile"]
     for p in products:
-        if p["id"] in game_ids: continue
         total = sum(
             len(stock.get(_stock_key(p["id"], i), []))
             for i in range(len(p.get("plans", [])))
@@ -526,7 +481,6 @@ def products_kb():
 def plans_kb(prod_id):
     p = _get_product(prod_id)
     if not p: return InlineKeyboardMarkup([])
-    game_ids = ["mobilelegends", "freefire", "roblox", "pubgmobile"]
     btns = []
     for i, plan in enumerate(p.get("plans", [])):
         cnt = _get_plan_stock_count(prod_id, i)
@@ -538,17 +492,13 @@ def plans_kb(prod_id):
         else:
             price_str = f"<b>${orig_price:.2f}</b>"
 
-        if prod_id in game_ids:
+        if cnt == 0:
+            label = f"❌ {plan['label']} — {price_str}  [អស់]"
+            btns.append([InlineKeyboardButton(label, callback_data=f"plan_oos:{prod_id}:{i}")])
+        else:
             label = f"✅ {plan['label']} — {price_str}"
             btns.append([InlineKeyboardButton(label, callback_data=f"plan:{prod_id}:{i}")])
-        else:
-            if cnt == 0:
-                label = f"❌ {plan['label']} — {price_str}  [អស់]"
-                btns.append([InlineKeyboardButton(label, callback_data=f"plan_oos:{prod_id}:{i}")])
-            else:
-                label = f"✅ {plan['label']} — {price_str}"
-                btns.append([InlineKeyboardButton(label, callback_data=f"plan:{prod_id}:{i}")])
-    btns.append([InlineKeyboardButton("🔙 Back", callback_data="back:gamemenu" if prod_id in game_ids else "back:shop")])
+    btns.append([InlineKeyboardButton("🔙 Back", callback_data="back:shop")])
     return InlineKeyboardMarkup(btns)
 
 # ═══════════════════════════════════════════════════════════
@@ -600,7 +550,7 @@ def _smm_get_categories():
     return cats
 
 def _smm_get_svcs_in_cat(cat):
-    return [(slug, s) for slug, s in smm_services.items() if s.get("category") == cat]
+    return [(slug, s) for slug, s in smm_services.items() if s.get("category"] == cat]
 
 def _smm_profit_pct(): return float(smm_profit.get("pct", 20))
 
@@ -711,7 +661,7 @@ def _watch_deposit(uid, uid_str, dep_id, amount, start_ts, sent_msg_id=None):
                 try:
                     bot.send_message(ADMIN_ID,
                         f"💰 <b>ដាក់លុយ ✅ (Auto)</b>\n👤 <code>{uid_str}</code>\n"
-                        f"💰 ${amount:.2f}" + (f" + Bonus ${bonus:.2f}" if bonus>0 else ""),
+                        f"💰 ${amount:.2f}",
                         parse_mode="HTML")
                 except: pass
                 if sent_msg_id:
@@ -746,7 +696,7 @@ def _watch_deposit(uid, uid_str, dep_id, amount, start_ts, sent_msg_id=None):
         time.sleep(5)
 
     dep = store_deps.get(dep_id)
-    if dep and dep.get("status") == "pending":
+    if dep and dep.get("status"] == "pending":
         dep["status"] = "expired"; _save(STORE_DEP_FILE, store_deps)
         try: bot.send_message(uid, "⏰ <b>QR ផុតកំណត់!</b> សូម top up ម្ដងទៀត", parse_mode="HTML")
         except: pass
@@ -762,12 +712,6 @@ def _watch_deposit(uid, uid_str, dep_id, amount, start_ts, sent_msg_id=None):
 def _send_deposit_qr(uid, amount, promo_code=None, label="💳 ដាក់ប្រាក់", bonus=0.0, promo_code_name=None):
     uid_str = str(uid)
     final_amount = amount
-    discount = 0
-    promo_applied = promo_code_name
-    if promo_code and not promo_applied:
-        fa, dc, err = apply_promo(uid, code=promo_code, amount=amount)
-        if not err:
-            final_amount = fa; discount = dc; promo_applied = promo_code
 
     qr_str = _generate_khqr(uid, final_amount, f"uid={uid} ${final_amount}")
     if not qr_str:
@@ -788,7 +732,7 @@ def _send_deposit_qr(uid, amount, promo_code=None, label="💳 ដាក់ប�
 
     store_deps[dep_id] = {
         "uid": uid_str, "amount": final_amount, "status": "pending",
-        "bonus": bonus, "promo": promo_applied or "",
+        "bonus": bonus, "promo": "",
         "md5": md5_hash, "qr_str": qr_str,
     }
     _save(STORE_DEP_FILE, store_deps)
@@ -799,20 +743,15 @@ def _send_deposit_qr(uid, amount, promo_code=None, label="💳 ដាក់ប�
            f"⏱ រាប់ថយក្រោយ: <b>05:00 នាទី</b>\n"
            f"━━━━━━━━━━━━━━━━━━\n"
            f"📱 <b>Bakong KHQR សម្រាប់ទូទាត់</b>")
-    
-    if promo_applied and (bonus > 0 or discount > 0):
-        confirm_promo(promo_applied, uid)
 
     try:
         admin_txt = (
             f"📥 <b>ការស្នើដាក់លុយថ្មី!</b>\n"
             f"━━━━━━━━━━━━━━━━━━\n"
             f"👤 User ID: <code>{uid_str}</code>\n"
-            f"💰 ទឹកប្រាក់ស្នើ: <b>${final_amount:.2f}</b>"
+            f"💰 ទឹកប្រាក់ស្នើ: <b>${final_amount:.2f}</b>\n"
+            f"💵 សរុបត្រូវបញ្ចូល: <b>${total_credit:.2f}</b>"
         )
-        if bonus > 0:
-            admin_txt += f"\n🎟️ Bonus Promo: <b>+${bonus:.2f}</b>"
-        admin_txt += f"\n💵 សរុបត្រូវបញ្ចូល: <b>${total_credit:.2f}</b>"
 
         admin_deposit_kb = InlineKeyboardMarkup([
             [
@@ -1064,7 +1003,7 @@ def cb_manual_dep(call):
     total_credit = amount
 
     if action == "approve":
-        if dep.get("status") == "confirmed":
+        if dep.get("status"] == "confirmed":
             bot.answer_callback_query(call.id, "⚠️ សំណើនេះបានបញ្ជាក់រួចរាល់ហើយ!", show_alert=True)
             return
 
@@ -1133,7 +1072,7 @@ def cb_admaddall(call):
             [InlineKeyboardButton("📸 Instagram", callback_data="smmaddcat:Instagram"),
              InlineKeyboardButton("▶️ YouTube",   callback_data="smmaddcat:YouTube")],
             [InlineKeyboardButton("📱 Telegram",  callback_data="smmaddcat:Telegram")],
-            [InlineKeyboardButton("✏️️ Custom Category", callback_data="smmaddcat:custom")],
+            [InlineKeyboardButton("✏ Custom Category", callback_data="smmaddcat:custom")],
         ])
         bot.send_message(uid, "➕ <b>ជ្រើសរើស Category សម្រាប់ SMM Service៖</b>", parse_mode="HTML", reply_markup=cats_kb)
 
@@ -1188,7 +1127,7 @@ def cb_plan(call):
     
     waiting[uid] = {"step": "order_qty", "prod_id": pid, "plan_idx": idx, "price": price}
     bot.send_message(uid,
-        f"🛍️️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
+        f"🛍 <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"🔢 សូមបញ្ចូលចំនួន Account (លេខតែមួយ):\nSend a numeric count of accounts:",
         parse_mode="HTML", reply_markup=cancel_kb())
@@ -1289,7 +1228,7 @@ def cb_delsvc(call):
 
     if len(parts) == 3 and parts[1] == "cat":
         cat = parts[2]
-        to_del = [slug for slug, s in smm_services.items() if s.get("category") == cat]
+        to_del = [slug for slug, s in smm_services.items() if s.get("category"] == cat]
         for slug in to_del:
             smm_services.pop(slug, None)
         _save(SMM_SVC_FILE, smm_services)
@@ -2152,7 +2091,7 @@ def handle(message):
             waiting[uid] = {"step": "add_product_icon", "name": text}
             bot.send_message(uid, f"<b>{text}</b>\nផ្ញើ Icon emoji (ឧ: ✂️ ឬ 💎):", parse_mode="HTML"); return
 
-        if isinstance(step, dict) and step.get("step") == "add_product_icon":
+        if isinstance(step, dict) and step.get("step"] == "add_product_icon":
             waiting[uid] = {"step": "add_product_desc", "name": step["name"], "icon": text}
             bot.send_message(uid, "ផ្ញើ Description:"); return
 
@@ -2271,7 +2210,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status")=="pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status"]=="pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
@@ -2429,7 +2368,7 @@ def handle(message):
         if text == "💰 ឆែកលុយ API":
             url = smm_api.get("url",""); key = smm_api.get("key","")
             if not url or not key:
-                bot.send_message(uid, "❌ SMM API មិនទាន់ set! ចូល ⚙️ Set SMM API", reply_markup=admin_kb()); return
+                bot.send_message(uid, "❌ SMM API មិនទាន់ set! ចូល ⚙️️ Set SMM API", reply_markup=admin_kb()); return
             try:
                 r = http.post(url, data={"key": key, "action": "balance"}, timeout=10)
                 d = r.json()
@@ -2657,15 +2596,23 @@ def handle(message):
 
     if text in ("💬 ជំនួយ Support", "💬 Support"):
         livechat_users.add(uid)
-        bot.send_message(uid, t(uid, "support_msg"), parse_mode="HTML", reply_markup=main_kb(uid)); return
+        
+        # បង្កើតប៊ូតុងចុចចូលគ្រុប (ជំនួស Link គ្រុបរបស់អ្នកនៅត្រង់ url) និងឆាតផ្ទាល់ជាមួយ Admin @SmeyLov008
+        support_kb = InlineKeyboardMarkup([
+            [InlineKeyboardButton("👥 ចូលក្នុងគ្រុប Telegram", url="https://t.me/your_group_link")],
+            [InlineKeyboardButton("💬 ឆាតផ្ទាល់ជាមួយ Admin (@SmeyLov008)", url="https://t.me/SmeyLov11")]
+        ])
+        
+        bot.send_message(uid, t(uid, "support_msg"), parse_mode="HTML", reply_markup=support_kb)
+        return
 
     if text in ("👜 កាបូបលុយ", "👜 Wallet"):
         livechat_users.discard(uid)
         b = bal(uid)
         my_deps = [(k, v) for k, v in store_deps.items()
-                   if v.get("uid") == uid_str]
-        confirmed = sum(float(v.get("amount",0)) for _, v in my_deps if v.get("status")=="confirmed")
-        pending   = sum(float(v.get("amount",0)) for _, v in my_deps if v.get("status")=="pending")
+                   if v.get("uid"] == uid_str]
+        confirmed = sum(float(v.get("amount",0)) for _, v in my_deps if v.get("status"]=="confirmed")
+        pending   = sum(float(v.get("amount",0)) for _, v in my_deps if v.get("status"]=="pending")
         bot.send_message(uid,
             f"👜 <b>{'កាបូបលុយ' if lang=='kh' else 'My Wallet'}</b>\n"
             f"━━━━━━━━━━━━━━━━━━\n"
