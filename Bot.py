@@ -74,7 +74,7 @@ from PIL import Image, ImageDraw, ImageFont
 # ═══════════════════════════════════════════════════════════
 #  CONFIG  — ដូរតម្លៃទាំងនេះ
 # ═══════════════════════════════════════════════════════════
-BOT_TOKEN          = "8875643462:AAGGeHvUl_bJsd1E2Y5kFJBF_S78bl9ZtKo"
+BOT_TOKEN          = "8875643462:AAEycXH5tVQvHWb57VIF0yYwOIq1CTcg9Y4"
 ADMIN_ID           = 8807182741
 
 # Bakong KHQR (deposit ទាំង Store + SMM)
