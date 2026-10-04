@@ -149,16 +149,17 @@ livechat_users  = set() # uid set of users currently in live chat mode
 
 if not products:
     products = [
-        {"id": "capcut", "name": "CapCut Pro", "icon": "🖤",
-         "desc": "CapCut Pro Account · Delivery via Auto Stock",
-         "plans": [
-             {"label": "1 Month", "price": 2.00}
-         ]},
         {"id": "netflix", "name": "Netflix Premium", "icon": "🎬",
          "desc": "Netflix 4K UHD Account · Delivery via Auto Stock",
          "plans": [
              {"label": "1 Month (1 Profile)", "price": 2.50},
              {"label": "1 Month (Full Account)", "price": 8.00}
+         ]},
+        {"id": "spotify", "name": "Spotify Premium", "icon": "🎧",
+         "desc": "Spotify Individual Upgrade · Fast Delivery",
+         "plans": [
+             {"label": "1 Month Individual", "price": 1.50},
+             {"label": "3 Months Individual", "price": 4.00}
          ]}
     ]
     _save(PRODUCTS_FILE, products)
@@ -183,7 +184,7 @@ STRINGS = {
     "kh": {
         "welcome": (
             "👋 សួស្ដី {name}!\n\n"
-            "សូមស្វាគមន៍មកកាន់ <b>Smey Lov</b> 🤖\n\n"
+            "សូមស្វាគមន៍មកកាន់ <b>Smey Lov</b> 🖤✨🤖\n\n"
             "💡 អ្នកអាចប្រើ Bot របស់យើងសម្រាប់:\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
@@ -224,7 +225,7 @@ STRINGS = {
     "en": {
         "welcome": (
             "👋 Welcome {name}!\n\n"
-            "Welcome to <b>Smey Lov</b> 🤖\n\n"
+            "Welcome to <b>Smey Lov</b> 🖤✨🤖\n\n"
             "💡 You can use our bot for:\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
@@ -362,7 +363,7 @@ def main_kb(uid=None):
 
 def admin_kb():
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
-    kb.row("🛍️️ ផលិតផល",       "📦 ការបញ្ជាទិញ")
+    kb.row("🛍️ ផលិតផល",       "📦 ការបញ្ជាទិញ")
     kb.row("📦 ស្តុក",         "➕ បន្ថែមស្តុក",    "➕ បន្ថែមផលិតផល")
     kb.row("➕ បន្ថែមគ្រប់សេវាកម្ម", "🔥 បញ្ចុះតម្លៃទាំងអស់")
     kb.row("✏️ កែតម្លៃ",       "💳 ប្រាក់បញ្ញើ")
@@ -408,7 +409,7 @@ def deposit_amt_kb(uid=None, promo_code=None):
 def smm_cat_kb():
     PLATFORM_ICONS = {
         "tiktok": "🎵", "telegram": "📱", "facebook": "📘",
-        "instagram": "📸", "youtube": "▶️", "twitter": "🐦",
+        "instagram": "📸", "youtube": "▶️️", "twitter": "🐦",
         "x": "🐦", "threads": "🧵"
     }
     cats = _smm_get_categories()
@@ -471,25 +472,10 @@ def products_kb():
             len(stock.get(_stock_key(p["id"], i), []))
             for i in range(len(p.get("plans", [])))
         ) or len(stock.get(p["id"], []))
-        
-        # បង្ហាញ Icon និង ឈ្មោះសេវាកម្ម រួមជាមួយតម្លៃលើប៊ូតុងផ្ទាល់
-        icon = p.get('icon', '📦')
-        name = p['name']
-        
-        plans = p.get("plans", [])
-        if plans:
-            first_plan_price = _calc_discounted_price(float(plans[0]['price']))
-            price_str = f" — ${first_plan_price:.2f}"
-        else:
-            price_str = ""
-
+        label = f"{p.get('icon','📦')} {p['name']}"
         if total == 0:
-            label = f"{icon} {name}{price_str} ❌ អស់"
-        else:
-            label = f"{icon} {name}{price_str}"
-            
+            label += "  ❌ អស់"
         btns.append([InlineKeyboardButton(label, callback_data=f"prod:{p['id']}")])
-        
     btns.append([InlineKeyboardButton("🔙 Back", callback_data="back:main")])
     return InlineKeyboardMarkup(btns)
 
@@ -1008,7 +994,7 @@ def cb_dep(call):
         waiting[uid] = {"step": "dep_custom"}
         bot.send_message(uid,
             "✏ <b>ផ្ញើចំនួន $ ដែលចង់ deposit:</b>" if lang=="kh" else
-            "✏️️ <b>Send amount $ to deposit:</b>",
+            "✏️ <b>Send amount $ to deposit:</b>",
             parse_mode="HTML", reply_markup=cancel_kb())
         return
 
@@ -2061,11 +2047,7 @@ def handle(message):
                 bot.send_message(uid, "❌ ឈ្មោះ Plan មិនអាចទទេ!"); return
             waiting[uid] = {"step": "edit_price_newplan_price", "pid": pid, "label": label}
             bot.send_message(uid,
-                f"➕ <b>បន្ថែម Plan ថ្មី</b>\n"
-                f"━━━━━━━━━━━━━━━━━━\n"
-                f"📦 {p.get('icon','')} <b>{p['name']}</b>\n\n"
-                f"ផ្ញើ <b>ឈ្មោះ Plan</b>:\n"
-                f"<i>ឧ: <code>1 ខែ</code> ឬ <code>100 Accounts</code></i>",
+                f"💰 Plan: <b>{label}</b>\nផ្ញើ <b>តម្លៃ</b> (USD):\n<i>ឧ: <code>2.50</code></i>",
                 parse_mode="HTML", reply_markup=cancel_kb()); return
 
         if isinstance(step, dict) and step.get("step") == "edit_price_newplan_price":
@@ -2195,7 +2177,7 @@ def handle(message):
             kb_api = InlineKeyboardMarkup([
                 [InlineKeyboardButton("✏ កំណត់ URL + Key", callback_data="smmapi:setup")],
                 [InlineKeyboardButton("🔌 សាកល្បងភ្ជាប់", callback_data="smmapi:test")],
-                [InlineKeyboardButton("🗑️ លុប API", callback_data="smmapi:clear")],
+                [InlineKeyboardButton("🗑️️ លុប API", callback_data="smmapi:clear")],
             ])
             bot.send_message(uid,
                 f"⚙️ <b>SMM API Config</b>\n━━━━━━━━━━━━━━━━━━\n"
@@ -2223,7 +2205,7 @@ def handle(message):
                 f"👥 អ្នកប្រើ: <b>{total_users}</b>\n"
                 f"📦 ការបញ្ជាសរុប: <b>{total_orders}</b>\n"
                 f"💰 ចំណូលសរុប: <b>${total_rev:.2f}</b>\n"
-                f"🎟️ Promo សកម្ម: <b>{len(promos)}</b>",
+                f"🎟️️ Promo សកម្ម: <b>{len(promos)}</b>",
                 parse_mode="HTML", reply_markup=admin_kb()); return
 
         if text == "👥 អ្នកប្រើប្រាស់":
@@ -2251,7 +2233,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status"] == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
