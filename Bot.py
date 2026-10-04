@@ -147,11 +147,14 @@ waiting         = {}   # uid -> step/dict
 lang_cooldown   = {}
 livechat_users  = set() # uid set of users currently in live chat mode
 
-# Telegram Premium Interface Image URL (អាចប្តូរជាลิงก์រូបភាពផ្ទាល់ខ្លួនរបស់អ្នកបាន)
-TELEGRAM_PREMIUM_INTERFACE_PHOTO = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
-
 if not products:
     products = [
+        {"id": "telegram_premium", "name": "Telegram Premium", "icon": "⭐",
+         "desc": "Telegram Premium Account · Fast Delivery & Auto Stock",
+         "plans": [
+             {"label": "1 Month Premium", "price": 3.50},
+             {"label": "1 Year Premium", "price": 28.00}
+         ]},
         {"id": "netflix", "name": "Netflix Premium", "icon": "🎬",
          "desc": "Netflix 4K UHD Account · Delivery via Auto Stock",
          "plans": [
@@ -186,14 +189,12 @@ http = _make_session()
 STRINGS = {
     "kh": {
         "welcome": (
-            "✨ <b>TELEGRAM PREMIUM INTERFACE</b> ✨\n"
-            "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             "👋 សួស្ដី {name}!\n\n"
-            "សូមស្វាគមន៍មកកាន់ប្រព័ន្ធ <b>Smey Lov</b> 🌟\n\n"
-            "💎 រីករាយជាមួយសេវាកម្មលំដាប់ខ្មែរ និង ៖\n"
+            "សូមស្វាគមន៍មកកាន់ <b>Smey Lov</b> 🤖\n\n"
+            "💡 អ្នកអាចប្រើ Bot របស់យើងសម្រាប់:\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
-            "📊 Check Stats & Orders យ៉ាងរហ័ស\n\n"
+            "📊 Check Stats & Orders\n\n"
             "👇 សូមជ្រើសរើសភាសាខាងក្រោម៖"
         ),
         "select_lang":   "🌐 ជ្រើសរើសភាសា / Select Language:",
@@ -206,7 +207,7 @@ STRINGS = {
         "choose_qty":    "ជ្រើស ចំនួន:",
         "send_link":     "ផ្ញើ Link របស់អ្នក:",
         "low_balance":   "❌ លុយមិនគ្រប់!",
-        "order_done":    "✅ បញ្ជាទិញได้ជោគជ័យ!",
+        "order_done":    "✅ បញ្ជាទិញបានជោគជ័យ!",
         "deposit_ok":    "✅ ដាក់លុយបានជោគជ័យ!",
         "qr_expired":    "⏰ QR ផុតកំណត់! សូម top up ម្ដងទៀត",
         "qr_error":      "⚠️ QR Generate Error! ទំនាក់ Admin",
@@ -229,11 +230,9 @@ STRINGS = {
     },
     "en": {
         "welcome": (
-            "✨ <b>TELEGRAM PREMIUM INTERFACE</b> ✨\n"
-            "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             "👋 Welcome {name}!\n\n"
-            "Welcome to <b>Smey Lov</b> 🌟\n\n"
-            "💎 Enjoy premium features:\n"
+            "Welcome to <b>Smey Lov</b> 🤖\n\n"
+            "💡 You can use our bot for:\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
             "📊 Check Stats & Orders\n\n"
@@ -357,7 +356,7 @@ def main_kb(uid=None):
     lang = get_lang(uid) if uid else "kh"
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
     if lang == "en":
-        kb.row("🛍️ Shop")
+        kb.row("🛍️️ Shop")
         kb.row("📊 SMM Services",  "📦 Orders")
         kb.row("💳 Top Up",        "👜 Wallet",         "📜 History")
         kb.row("💬 Support",       "💡 How to Use",    "🌐 Language")
@@ -904,7 +903,7 @@ def is_banned(uid):
     return bool(users_db.get(str(uid), {}).get("banned", False))
 
 # ═══════════════════════════════════════════════════════════
-#  START & WELCOME WITH TELEGRAM PREMIUM INTERFACE PHOTO
+#  START & WELCOME WITH GITHUB PHOTO
 # ═══════════════════════════════════════════════════════════
 @bot.message_handler(commands=["start"])
 def cmd_start(message):
@@ -933,11 +932,12 @@ def cmd_start(message):
 
     user_name = message.from_user.first_name or "User"
     caption = t(uid, "welcome", user_name)
+    photo_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
 
     try:
         bot.send_photo(
             chat_id=uid,
-            photo=TELEGRAM_PREMIUM_INTERFACE_PHOTO,
+            photo=photo_url,
             caption=caption,
             parse_mode="HTML",
             reply_markup=lang_select_kb()
@@ -964,11 +964,12 @@ def cb_setlang(call):
     b = bal(uid)
     user_name = call.from_user.first_name or "User"
     caption = t(uid, "welcome", user_name) + f"\n\n💰 Balance: <b>${b:.2f}</b>"
+    photo_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
     
     try:
         bot.send_photo(
             chat_id=uid,
-            photo=TELEGRAM_PREMIUM_INTERFACE_PHOTO,
+            photo=photo_url,
             caption=caption,
             parse_mode="HTML",
             reply_markup=main_kb(uid)
@@ -1103,7 +1104,7 @@ def cb_admaddall(call):
             [InlineKeyboardButton("📸 Instagram", callback_data="smmaddcat:Instagram"),
              InlineKeyboardButton("▶ YouTube",   callback_data="smmaddcat:YouTube")],
             [InlineKeyboardButton("📱 Telegram",  callback_data="smmaddcat:Telegram")],
-            [InlineKeyboardButton("✏️️ Custom Category", callback_data="smmaddcat:custom")],
+            [InlineKeyboardButton("✏️ Custom Category", callback_data="smmaddcat:custom")],
         ])
         bot.send_message(uid, "➕ <b>ជ្រើសរើស Category សម្រាប់ SMM Service៖</b>", parse_mode="HTML", reply_markup=cats_kb)
 
@@ -1130,6 +1131,7 @@ def cb_prod(call):
         status = "✅ Available" if cnt > 0 else "❌ អស់"
         plan_lines.append(f"  • {pl['label']} — {price_str}  {status}")
     plans_txt = "\n".join(plan_lines) if plan_lines else "  (គ្មាន plan)"
+    
     txt = (f"{p.get('icon','📦')} <b>{p['name']}</b>\n"
            f"━━━━━━━━━━━━━━━━━━\n"
            f"📋 {p.get('desc','')}\n"
@@ -1137,9 +1139,26 @@ def cb_prod(call):
            f"📦 Plans:\n{plans_txt}\n"
            f"━━━━━━━━━━━━━━━━━━\n"
            f"{'ជ្រើស Plan:' if lang=='kh' else 'Choose Plan:'}")
-    try: bot.edit_message_text(txt, chat_id=uid, message_id=call.message.message_id,
-                                parse_mode="HTML", reply_markup=plans_kb(pid))
-    except: bot.send_message(uid, txt, parse_mode="HTML", reply_markup=plans_kb(pid))
+    
+    product_image_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
+    if pid == "telegram_premium":
+        product_image_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
+
+    try:
+        bot.delete_message(uid, call.message.message_id)
+    except:
+        pass
+
+    try:
+        bot.send_photo(
+            chat_id=uid,
+            photo=product_image_url,
+            caption=txt,
+            parse_mode="HTML",
+            reply_markup=plans_kb(pid)
+        )
+    except Exception:
+        bot.send_message(uid, txt, parse_mode="HTML", reply_markup=plans_kb(pid))
 
 @bot.callback_query_handler(func=lambda c: c.data.startswith("plan_oos:"))
 def cb_plan_oos(call):
@@ -1650,22 +1669,6 @@ def cb_back(call):
         bot.send_message(uid, "🛍️ <b>Shop</b>", parse_mode="HTML", reply_markup=products_kb())
     elif dest == "smmcats":
         bot.send_message(uid, "📊 <b>SMM Services</b>", parse_mode="HTML", reply_markup=smm_cat_kb())
-
-def _show_welcome(uid):
-    user_name = users_db.get(str(uid), {}).get("name", "User")
-    caption = t(uid, "welcome", user_name)
-    b = bal(uid)
-    caption += f"\n\n💰 Balance: <b>${b:.2f}</b>"
-    try:
-        bot.send_photo(
-            chat_id=uid,
-            photo=TELEGRAM_PREMIUM_INTERFACE_PHOTO,
-            caption=caption,
-            parse_mode="HTML",
-            reply_markup=main_kb(uid)
-        )
-    except Exception:
-        bot.send_message(uid, caption, parse_mode="HTML", reply_markup=main_kb(uid))
 
 @bot.callback_query_handler(func=lambda c: c.data.startswith("useraction:"))
 def cb_useraction(call):
@@ -2226,7 +2229,7 @@ def handle(message):
                 f"👥 អ្នកប្រើ: <b>{total_users}</b>\n"
                 f"📦 ការបញ្ជាសរុប: <b>{total_orders}</b>\n"
                 f"💰 ចំណូលសរុប: <b>${total_rev:.2f}</b>\n"
-                f"🎟️️ Promo សកម្ម: <b>{len(promos)}</b>",
+                f"🎟️ Promo សកម្ម: <b>{len(promos)}</b>",
                 parse_mode="HTML", reply_markup=admin_kb()); return
 
         if text == "👥 អ្នកប្រើប្រាស់":
@@ -2275,7 +2278,7 @@ def handle(message):
                         lines.append(f"  • {pl['label']} — <b>{cnt}</b>{alert}{oos}")
                 else:
                     cnt = len(_get_stock(p["id"]))
-                    alert = " ⚠️️" if 0 < cnt <= STOCK_ALERT_MIN else ""
+                    alert = " ⚠️" if 0 < cnt <= STOCK_ALERT_MIN else ""
                     oos   = " ❌ អស់" if cnt == 0 else ""
                     lines.append(f"  (no plan) — <b>{cnt}</b>{alert}{oos}")
             bot.send_message(uid, "\n".join(lines), parse_mode="HTML", reply_markup=admin_kb()); return
@@ -2778,7 +2781,7 @@ def restart():
     return jsonify({"status": "restarting", "message": "Bot is restarting..."})
 
 @flask_app.route("/broadcast_web", methods=["POST"])
-def broadcast_web:
+def broadcast_web():
     if not _check_key():
         return jsonify({"error": "Unauthorized"}), 403
     data = flask_request.get_json(silent=True) or {}
