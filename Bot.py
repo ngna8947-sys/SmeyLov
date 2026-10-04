@@ -186,11 +186,11 @@ STRINGS = {
             "✨ <b>[ 🌟 TELEGRAM PREMIUM SHOP 🌟 ]</b> ✨\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             "👋 សួស្ដី <b>{name}</b>!\n\n"
-            "💎 សូមស្វាគមន៍មកកាន់ប្រព័ន្ធទិញ-លក់ស្វ័យប្រវត្តិ <b>Smey Lov VIP</b> 🤖\n\n"
+            "💎 សូមស្វាគមន៍មកកាន់ប្រព័ន្ធទិញ-លក់ស្វ័យប្រវត្ត <b>Smey Lov VIP</b> 🤖\n\n"
             "👑 <b>មុខងារពិសេសៗ ലഭ്യដួចជា:</b>\n"
-            "⚡ <b>Telegram Premium</b> (ឌីជីថលស្វ័យប្រវត្តិ 100%)\n"
+            "⚡ <b>Telegram Premium</b> (ឌីជីថលស្វ័យប្រវត្ត 100%)\n"
             "🚀 <b>SMM Social Media Boost</b> (រហ័ស សុវត្ថិភាពខ្ពស់)\n"
-            "💳 <b>ប្រព័ន្ធទូទាត់ប្រាក់ស្វ័យប្រវត្តិ</b> (Bakong KHQR)\n\n"
+            "💳 <b>ប្រព័ន្ធទូទាត់ប្រាក់ស្វ័យប្រវត្ត</b> (Bakong KHQR)\n\n"
             "👇 <b>សូមជ្រើសរើសភាសាដែលចង់ប្រើប្រាស់ខាងក្រោម៖</b>"
         ),
         "select_lang":   "🌐 ជ្រើសរើសភាសា / Select Language:",
@@ -249,7 +249,7 @@ STRINGS = {
         "order_done":    "✅ Order placed successfully!",
         "deposit_ok":    "✅ Deposit successful!",
         "qr_expired":    "⏰ QR expired! Please top up again.",
-        "qr_error":      "⚠️ QR Generation Error! Contact Admin.",
+        "qr_error":      "⚠️️ QR Generation Error! Contact Admin.",
         "order_notfound":"❌ Order not found!",
         "no_orders":     "❌ No orders yet!",
         "how_to_use": (
@@ -348,7 +348,7 @@ def confirm_promo(code, uid):
     _save(PROMO_FILE, promos)
 
 # ═══════════════════════════════════════════════════════════
-#  KEYBOARDS (Telegram Premium Aesthetic & Icons)
+#  KEYBOARDS
 # ═══════════════════════════════════════════════════════════
 def main_kb(uid=None):
     lang = get_lang(uid) if uid else "kh"
@@ -406,7 +406,7 @@ def deposit_amt_kb(uid=None, promo_code=None):
             btns.append(row); row = []
     if row: btns.append(row)
     btns.append([InlineKeyboardButton(
-        "✏️ បញ្ចូលទឹកប្រាក់ផ្ទាល់ខ្លួន (Custom Amount)" if lang=="kh" else "✏️️ Custom Amount",
+        "✏️ បញ្ចូលទឹកប្រាក់ផ្ទាល់ខ្លួន (Custom Amount)" if lang=="kh" else "✏ Custom Amount",
         callback_data="dep:custom")])
     return InlineKeyboardMarkup(btns)
 
@@ -998,8 +998,8 @@ def cb_dep(call):
     if val == "custom":
         waiting[uid] = {"step": "dep_custom"}
         bot.send_message(uid,
-            "✏️ <b>សូមផ្ញើចំនួនទឹកប្រាក់រസ്‌អុិន ($) ដែលចង់ Top Up:</b>" if lang=="kh" else
-            "✏️ <b>Send amount $ to deposit:</b>",
+            "✏️ <b>សូមផ្ញើចំនួនទឹកប្រាក់រസ്‌‌អុិន ($) ដែលចង់ Top Up:</b>" if lang=="kh" else
+            "✏️️ <b>Send amount $ to deposit:</b>",
             parse_mode="HTML", reply_markup=cancel_kb())
         return
 
@@ -1223,7 +1223,7 @@ def cb_admprod(call):
         stock.pop(pid, None)
         _save(STOCK_FILE, stock)
         bot.send_message(uid,
-            f"✅ សម្អាត Stock <b>{p['name'] .get('name','') if isinstance(p, dict) else pid}</b> បានជោគជ័យ!",
+            f"✅ សម្អាត Stock ជោគជ័យ!",
             parse_mode="HTML", reply_markup=admin_kb())
 
     elif action == "del":
@@ -1511,12 +1511,12 @@ def cb_editprice_prod(call):
     for i, pl in enumerate(plans):
         btns.append([
             InlineKeyboardButton(
-                f"✏️ ${pl['price']:.2f} ({pl['label']})",
+                f"✏️️ ${pl['price']:.2f} ({pl['label']})",
                 callback_data=f"editprice_plan:{pid}:{i}"),
             InlineKeyboardButton(
                 f"✏️ Label", callback_data=f"editlabel_plan:{pid}:{i}"),
             InlineKeyboardButton(
-                f"🗑️ លុប", callback_data=f"delplan:{pid}:{i}"),
+                f"🗑️️ លុប", callback_data=f"delplan:{pid}:{i}"),
         ])
     btns.append([InlineKeyboardButton(
         "➕ បន្ថែម Plan ថ្មី", callback_data=f"editprice_addplan:{pid}")])
@@ -1698,7 +1698,7 @@ def cb_useraction(call):
         b    = float(wallets.get(target, 0))
         bot.send_message(uid,
             f"💸 <b>បន្ថែមទឹកប្រាក់ (Add Balance)</b>\n👤 <b>{name}</b> <code>{target}</code>\n"
-            f"💳 Balance បច្ចុប្បន្ន: <b>${b:.2f}</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n👇 ផ្ញើจำนวนទឹកប្រាក់ ($):",
+            f"💳 Balance បច្ចុប្បន្ន: <b>${b:.2f}</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n👇 ផ្ញើចំនួនទឹកប្រាក់ ($):",
             parse_mode="HTML", reply_markup=cancel_kb())
 
     elif action == "dedbal":
@@ -1707,7 +1707,7 @@ def cb_useraction(call):
         b    = float(wallets.get(target, 0))
         bot.send_message(uid,
             f"💔 <b>កាត់ទឹកប្រាក់ (Deduct Balance)</b>\n👤 <b>{name}</b> <code>{target}</code>\n"
-            f"💳 Balance បច្ចុប្បន្ន: <b>${b:.2f}</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n👇 ផ្ញើจำนวนទឹកប្រាក់ ($) ដែលត្រូវកាត់ដក:",
+            f"💳 Balance បច្ចុប្បន្ន: <b>${b:.2f}</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n👇 ផ្ញើចំនួនទឹកប្រាក់ ($) ដែលត្រូវកាត់ដក:",
             parse_mode="HTML", reply_markup=cancel_kb())
 
 @bot.callback_query_handler(func=lambda c: c.data.startswith("adminpromo:"))
@@ -1739,7 +1739,7 @@ def cb_adminpromo(call):
 def _show_promos(uid):
     if not promos:
         bot.send_message(uid, "❌ មិនទាន់មាន Promo Code ណាមួយទេ", reply_markup=admin_kb()); return
-    lines = ["🎟️ <b>បញ្ជី Promo Codes ทั้งหมด</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━"]
+    lines = ["🎟️ <b>បញ្ជី Promo Codes ទាំងអស់</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━"]
     btns  = []
     for code, p in promos.items():
         dtype = f"{p['discount']}%" if p.get("pct") else f"${p['discount']}"
@@ -2172,7 +2172,7 @@ def handle(message):
         if text == "📦 ការបញ្ជាទិញ":
             if not orders:
                 bot.send_message(uid, "❌ មិនទាន់មានការបញ្ជាទិញណាមួយទេ", reply_markup=admin_kb()); return
-            lines = ["<b>📦 ປະຫວັດການបញ្ជាទិញ (20 ចុងក្រោយ)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━"]
+            lines = ["<b>📦 ប្រវត្តិការបញ្ជាទិញ (20 ចុងក្រោយ)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━"]
             for oid, o in list(orders.items())[-20:]:
                 lines.append(f"🆔 <code>{oid}</code> | 👤 <code>{o['uid']}</code> | {o.get('prod_name','?')} — {o.get('plan','?')} | ${o.get('price',0):.2f}")
             bot.send_message(uid, "\n".join(lines)[:4000], parse_mode="HTML", reply_markup=admin_kb()); return
@@ -2180,7 +2180,7 @@ def handle(message):
         if text == "📊 ការបញ្ជា SMM":
             if not smm_orders:
                 bot.send_message(uid, "❌ មិនទាន់មានការបញ្ជា SMM ណាមួយទេ", reply_markup=admin_kb()); return
-            lines = ["<b>📊 ປະຫວັດការបញ្ជា SMM (20 ចុងក្រោយ)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━"]
+            lines = ["<b>📊 ប្រវត្តិការបញ្ជា SMM (20 ចុងក្រោយ)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━"]
             for oid, o in list(smm_orders.items())[-20:]:
                 lines.append(f"🆔 <code>{oid}</code> | 👤 <code>{o['uid']}</code>\n  {o.get('label','?')} | Qty:{o.get('qty','?')} | ${o.get('price',0):.4f} | {o.get('status','?')}")
             bot.send_message(uid, "\n".join(lines)[:4000], parse_mode="HTML", reply_markup=admin_kb()); return
@@ -2248,7 +2248,8 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status"] == "pending"]
+            # Fixed syntax error in list comprehension here:
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានប្រាក់បញ្ញើដែលរង់ចាំ (Pending) ទេ", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើរង់ចាំការទូទាត់ (Pending Deposits)</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━"]
@@ -2257,7 +2258,7 @@ def handle(message):
             bot.send_message(uid, "\n".join(lines)[:4000], parse_mode="HTML", reply_markup=admin_kb()); return
 
         if text == "📦 ស្តុក":
-            lines = ["<b>📦 ស្ថានភាពស្តុកទំនិញทั้งหมด</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━"]
+            lines = ["<b>📦 ស្ថានភាពស្តុកទំនិញទាំងអស់</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━"]
             for p in products:
                 plans = p.get("plans", [])
                 lines.append(f"\n{p.get('icon','')} <b>{p['name']}</b>")
@@ -2819,7 +2820,7 @@ def print_banner():
 
 # ═══════════════════════════════════════════════════════════
 #  MAIN
-# ═══════════════════════════════════════════════════════════
+# ════════════════════════════════════%.
 if __name__ == "__main__":
     print_banner()
     logger.info(f"{CLR_BOLD}{CLR_GREEN}🚀 Kairozen All-in-One Bot v4.1 VIP កំពុងដំណើរការ...{CLR_RESET}")
