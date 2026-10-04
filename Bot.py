@@ -149,17 +149,16 @@ livechat_users  = set() # uid set of users currently in live chat mode
 
 if not products:
     products = [
+        {"id": "capcut", "name": "CapCut Pro", "icon": "🖤",
+         "desc": "CapCut Pro Account · Delivery via Auto Stock",
+         "plans": [
+             {"label": "1 Month", "price": 2.00}
+         ]},
         {"id": "netflix", "name": "Netflix Premium", "icon": "🎬",
          "desc": "Netflix 4K UHD Account · Delivery via Auto Stock",
          "plans": [
              {"label": "1 Month (1 Profile)", "price": 2.50},
              {"label": "1 Month (Full Account)", "price": 8.00}
-         ]},
-        {"id": "spotify", "name": "Spotify Premium", "icon": "🎧",
-         "desc": "Spotify Individual Upgrade · Fast Delivery",
-         "plans": [
-             {"label": "1 Month Individual", "price": 1.50},
-             {"label": "3 Months Individual", "price": 4.00}
          ]}
     ]
     _save(PRODUCTS_FILE, products)
@@ -363,7 +362,7 @@ def main_kb(uid=None):
 
 def admin_kb():
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
-    kb.row("🛍️ ផលិតផល",       "📦 ការបញ្ជាទិញ")
+    kb.row("🛍️️ ផលិតផល",       "📦 ការបញ្ជាទិញ")
     kb.row("📦 ស្តុក",         "➕ បន្ថែមស្តុក",    "➕ បន្ថែមផលិតផល")
     kb.row("➕ បន្ថែមគ្រប់សេវាកម្ម", "🔥 បញ្ចុះតម្លៃទាំងអស់")
     kb.row("✏️ កែតម្លៃ",       "💳 ប្រាក់បញ្ញើ")
@@ -473,11 +472,10 @@ def products_kb():
             for i in range(len(p.get("plans", [])))
         ) or len(stock.get(p["id"], []))
         
-        # យក Icon និង ឈ្មោះសេវាកម្មមកបង្ហាញជាមួយគ្នា
+        # បង្ហាញ Icon និង ឈ្មោះសេវាកម្ម រួមជាមួយតម្លៃលើប៊ូតុងផ្ទាល់
         icon = p.get('icon', '📦')
         name = p['name']
         
-        # ទាញតម្លៃ Plan ដំបូងមកបង្ហាញជាមួយគ្នា
         plans = p.get("plans", [])
         if plans:
             first_plan_price = _calc_discounted_price(float(plans[0]['price']))
@@ -858,7 +856,7 @@ def _place_store_order(uid, prod_id, plan_idx):
     if remaining <= STOCK_ALERT_MIN:
         try:
             alert_txt = (
-                f"⚠️️ <b>ជូនដំណឹង Stock!</b>\n"
+                f"⚠️ <b>ជូនដំណឹង Stock!</b>\n"
                 f"📦 {p.get('icon','')} {p['name']} — {plan['label']}\n"
                 f"🔢 នៅសល់: <b>{remaining}</b>"
             )
@@ -1010,7 +1008,7 @@ def cb_dep(call):
         waiting[uid] = {"step": "dep_custom"}
         bot.send_message(uid,
             "✏ <b>ផ្ញើចំនួន $ ដែលចង់ deposit:</b>" if lang=="kh" else
-            "✏️ <b>Send amount $ to deposit:</b>",
+            "✏️️ <b>Send amount $ to deposit:</b>",
             parse_mode="HTML", reply_markup=cancel_kb())
         return
 
