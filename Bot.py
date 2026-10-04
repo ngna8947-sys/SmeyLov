@@ -1723,7 +1723,7 @@ def cb_adminpromo(call):
         promos.pop(code.upper(), None)
         _save(PROMO_FILE, promos)
         try:
-            bot.edit_message_text(f"🗑️ Promo <b>{code}</b> លុបហើយ!",
+            bot.edit_message_text(f"🗑️️ Promo <b>{code}</b> លុបហើយ!",
                                   chat_id=uid, message_id=call.message.message_id, parse_mode="HTML")
         except: pass
 
@@ -2239,7 +2239,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status"] == "pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
