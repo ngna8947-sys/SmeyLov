@@ -147,6 +147,9 @@ waiting         = {}   # uid -> step/dict
 lang_cooldown   = {}
 livechat_users  = set() # uid set of users currently in live chat mode
 
+# Telegram Premium Interface Image URL (អាចប្តូរជាลิงก์រូបភាពផ្ទាល់ខ្លួនរបស់អ្នកបាន)
+TELEGRAM_PREMIUM_INTERFACE_PHOTO = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
+
 if not products:
     products = [
         {"id": "netflix", "name": "Netflix Premium", "icon": "🎬",
@@ -183,12 +186,14 @@ http = _make_session()
 STRINGS = {
     "kh": {
         "welcome": (
+            "✨ <b>TELEGRAM PREMIUM INTERFACE</b> ✨\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             "👋 សួស្ដី {name}!\n\n"
-            "សូមស្វាគមន៍មកកាន់ <b>Smey Lov</b> 🤖\n\n"
-            "💡 អ្នកអាចប្រើ Bot របស់យើងសម្រាប់:\n"
+            "សូមស្វាគមន៍មកកាន់ប្រព័ន្ធ <b>Smey Lov</b> 🌟\n\n"
+            "💎 រីករាយជាមួយសេវាកម្មលំដាប់ខ្មែរ និង ៖\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
-            "📊 Check Stats & Orders\n\n"
+            "📊 Check Stats & Orders យ៉ាងរហ័ស\n\n"
             "👇 សូមជ្រើសរើសភាសាខាងក្រោម៖"
         ),
         "select_lang":   "🌐 ជ្រើសរើសភាសា / Select Language:",
@@ -201,7 +206,7 @@ STRINGS = {
         "choose_qty":    "ជ្រើស ចំនួន:",
         "send_link":     "ផ្ញើ Link របស់អ្នក:",
         "low_balance":   "❌ លុយមិនគ្រប់!",
-        "order_done":    "✅ បញ្ជាទិញបានជោគជ័យ!",
+        "order_done":    "✅ បញ្ជាទិញได้ជោគជ័យ!",
         "deposit_ok":    "✅ ដាក់លុយបានជោគជ័យ!",
         "qr_expired":    "⏰ QR ផុតកំណត់! សូម top up ម្ដងទៀត",
         "qr_error":      "⚠️ QR Generate Error! ទំនាក់ Admin",
@@ -224,9 +229,11 @@ STRINGS = {
     },
     "en": {
         "welcome": (
+            "✨ <b>TELEGRAM PREMIUM INTERFACE</b> ✨\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             "👋 Welcome {name}!\n\n"
-            "Welcome to <b>Smey Lov</b> 🤖\n\n"
-            "💡 You can use our bot for:\n"
+            "Welcome to <b>Smey Lov</b> 🌟\n\n"
+            "💎 Enjoy premium features:\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
             "📊 Check Stats & Orders\n\n"
@@ -850,7 +857,7 @@ def _place_store_order(uid, prod_id, plan_idx):
                 alert_txt = (
                     f"🚨 <b>Stock អស់ហើយ!</b>\n"
                     f"📦 {p.get('icon','')} {p['name']} — {plan['label']}\n"
-                    f"⚠️️ ចូល ➕ បន្ថែមស្តុក ភ្លាម!"
+                    f"⚠ ចូល ➕ បន្ថែមស្តុក ភ្លាម!"
                 )
             bot.send_message(ADMIN_ID, alert_txt, parse_mode="HTML")
         except: pass
@@ -897,7 +904,7 @@ def is_banned(uid):
     return bool(users_db.get(str(uid), {}).get("banned", False))
 
 # ═══════════════════════════════════════════════════════════
-#  START & WELCOME WITH GITHUB PHOTO
+#  START & WELCOME WITH TELEGRAM PREMIUM INTERFACE PHOTO
 # ═══════════════════════════════════════════════════════════
 @bot.message_handler(commands=["start"])
 def cmd_start(message):
@@ -926,12 +933,11 @@ def cmd_start(message):
 
     user_name = message.from_user.first_name or "User"
     caption = t(uid, "welcome", user_name)
-    photo_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
 
     try:
         bot.send_photo(
             chat_id=uid,
-            photo=photo_url,
+            photo=TELEGRAM_PREMIUM_INTERFACE_PHOTO,
             caption=caption,
             parse_mode="HTML",
             reply_markup=lang_select_kb()
@@ -958,12 +964,11 @@ def cb_setlang(call):
     b = bal(uid)
     user_name = call.from_user.first_name or "User"
     caption = t(uid, "welcome", user_name) + f"\n\n💰 Balance: <b>${b:.2f}</b>"
-    photo_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
     
     try:
         bot.send_photo(
             chat_id=uid,
-            photo=photo_url,
+            photo=TELEGRAM_PREMIUM_INTERFACE_PHOTO,
             caption=caption,
             parse_mode="HTML",
             reply_markup=main_kb(uid)
@@ -1098,7 +1103,7 @@ def cb_admaddall(call):
             [InlineKeyboardButton("📸 Instagram", callback_data="smmaddcat:Instagram"),
              InlineKeyboardButton("▶ YouTube",   callback_data="smmaddcat:YouTube")],
             [InlineKeyboardButton("📱 Telegram",  callback_data="smmaddcat:Telegram")],
-            [InlineKeyboardButton("✏️ Custom Category", callback_data="smmaddcat:custom")],
+            [InlineKeyboardButton("✏️️ Custom Category", callback_data="smmaddcat:custom")],
         ])
         bot.send_message(uid, "➕ <b>ជ្រើសរើស Category សម្រាប់ SMM Service៖</b>", parse_mode="HTML", reply_markup=cats_kb)
 
@@ -1646,6 +1651,22 @@ def cb_back(call):
     elif dest == "smmcats":
         bot.send_message(uid, "📊 <b>SMM Services</b>", parse_mode="HTML", reply_markup=smm_cat_kb())
 
+def _show_welcome(uid):
+    user_name = users_db.get(str(uid), {}).get("name", "User")
+    caption = t(uid, "welcome", user_name)
+    b = bal(uid)
+    caption += f"\n\n💰 Balance: <b>${b:.2f}</b>"
+    try:
+        bot.send_photo(
+            chat_id=uid,
+            photo=TELEGRAM_PREMIUM_INTERFACE_PHOTO,
+            caption=caption,
+            parse_mode="HTML",
+            reply_markup=main_kb(uid)
+        )
+    except Exception:
+        bot.send_message(uid, caption, parse_mode="HTML", reply_markup=main_kb(uid))
+
 @bot.callback_query_handler(func=lambda c: c.data.startswith("useraction:"))
 def cb_useraction(call):
     uid = call.message.chat.id
@@ -2175,7 +2196,7 @@ def handle(message):
             cur_key = smm_api.get("key","❌ មិនទាន់ set")
             masked = cur_key[:6] + "****" + cur_key[-4:] if len(cur_key) > 10 else cur_key
             kb_api = InlineKeyboardMarkup([
-                [InlineKeyboardButton("✏️️ កំណត់ URL + Key", callback_data="smmapi:setup")],
+                [InlineKeyboardButton("✏ កំណត់ URL + Key", callback_data="smmapi:setup")],
                 [InlineKeyboardButton("🔌 សាកល្បងភ្ជាប់", callback_data="smmapi:test")],
                 [InlineKeyboardButton("🗑️ លុប API", callback_data="smmapi:clear")],
             ])
@@ -2205,7 +2226,7 @@ def handle(message):
                 f"👥 អ្នកប្រើ: <b>{total_users}</b>\n"
                 f"📦 ការបញ្ជាសរុប: <b>{total_orders}</b>\n"
                 f"💰 ចំណូលសរុប: <b>${total_rev:.2f}</b>\n"
-                f"🎟️ Promo សកម្ម: <b>{len(promos)}</b>",
+                f"🎟️️ Promo សកម្ម: <b>{len(promos)}</b>",
                 parse_mode="HTML", reply_markup=admin_kb()); return
 
         if text == "👥 អ្នកប្រើប្រាស់":
@@ -2233,7 +2254,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status"] == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
@@ -2254,7 +2275,7 @@ def handle(message):
                         lines.append(f"  • {pl['label']} — <b>{cnt}</b>{alert}{oos}")
                 else:
                     cnt = len(_get_stock(p["id"]))
-                    alert = " ⚠️" if 0 < cnt <= STOCK_ALERT_MIN else ""
+                    alert = " ⚠️️" if 0 < cnt <= STOCK_ALERT_MIN else ""
                     oos   = " ❌ អស់" if cnt == 0 else ""
                     lines.append(f"  (no plan) — <b>{cnt}</b>{alert}{oos}")
             bot.send_message(uid, "\n".join(lines), parse_mode="HTML", reply_markup=admin_kb()); return
@@ -2285,7 +2306,7 @@ def handle(message):
                 btns.append([InlineKeyboardButton(
                     f"{p.get('icon','📦')} {p['name']}", callback_data=f"editprice_prod:{p['id']}")])
             bot.send_message(uid,
-                "✏️️ <b>កែតម្លៃ / Plan</b>\n━━━━━━━━━━━━━━━━━━\nជ្រើសផលិតផល:",
+                "✏ <b>កែតម្លៃ / Plan</b>\n━━━━━━━━━━━━━━━━━━\nជ្រើសផលិតផល:",
                 parse_mode="HTML", reply_markup=InlineKeyboardMarkup(btns)); return
 
         if text == "💸 បន្ថែមប្រាក់":
@@ -2757,7 +2778,7 @@ def restart():
     return jsonify({"status": "restarting", "message": "Bot is restarting..."})
 
 @flask_app.route("/broadcast_web", methods=["POST"])
-def broadcast_web():
+def broadcast_web:
     if not _check_key():
         return jsonify({"error": "Unauthorized"}), 403
     data = flask_request.get_json(silent=True) or {}
