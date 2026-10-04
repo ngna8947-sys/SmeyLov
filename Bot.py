@@ -409,7 +409,7 @@ def deposit_amt_kb(uid=None, promo_code=None):
 def smm_cat_kb():
     PLATFORM_ICONS = {
         "tiktok": "🎵", "telegram": "📱", "facebook": "📘",
-        "instagram": "📸", "youtube": "▶️️", "twitter": "🐦",
+        "instagram": "📸", "youtube": "▶", "twitter": "🐦",
         "x": "🐦", "threads": "🧵"
     }
     cats = _smm_get_categories()
@@ -2177,7 +2177,7 @@ def handle(message):
             kb_api = InlineKeyboardMarkup([
                 [InlineKeyboardButton("✏ កំណត់ URL + Key", callback_data="smmapi:setup")],
                 [InlineKeyboardButton("🔌 សាកល្បងភ្ជាប់", callback_data="smmapi:test")],
-                [InlineKeyboardButton("🗑️️ លុប API", callback_data="smmapi:clear")],
+                [InlineKeyboardButton("🗑️ លុប API", callback_data="smmapi:clear")],
             ])
             bot.send_message(uid,
                 f"⚙️ <b>SMM API Config</b>\n━━━━━━━━━━━━━━━━━━\n"
@@ -2233,7 +2233,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status"] == "pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
