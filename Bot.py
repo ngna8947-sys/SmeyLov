@@ -149,24 +149,24 @@ livechat_users  = set() # uid set of users currently in live chat mode
 
 if not products:
     products = [
-        {"id": "telegram_premium", "name": "Telegram Premium", "icon": "⭐",
-         "desc": "Telegram Premium Account · Fast Delivery & Auto Stock",
-         "plans": [
-             {"label": "1 Month Premium", "price": 3.50},
-             {"label": "1 Year Premium", "price": 28.00}
-         ]},
-        {"id": "netflix", "name": "Netflix Premium", "icon": "🎬",
-         "desc": "Netflix 4K UHD Account · Delivery via Auto Stock",
-         "plans": [
-             {"label": "1 Month (1 Profile)", "price": 2.50},
-             {"label": "1 Month (Full Account)", "price": 8.00}
-         ]},
-        {"id": "spotify", "name": "Spotify Premium", "icon": "🎧",
-         "desc": "Spotify Individual Upgrade · Fast Delivery",
-         "plans": [
-             {"label": "1 Month Individual", "price": 1.50},
-             {"label": "3 Months Individual", "price": 4.00}
-         ]}
+        {"id": "canva", "name": "CANVA EDUCATION 3 YEARS", "icon": "🎨",
+         "desc": "Canva Education Account · Delivery via Auto Stock",
+         "plans": [{"label": "3 Years Subscription", "price": 0.99}]},
+        {"id": "youtube", "name": "YOUTUBE PREMIUM 1 MONTH", "icon": "📺",
+         "desc": "YouTube Premium Individual Plan",
+         "plans": [{"label": "1 Month", "price": 0.50}]},
+        {"id": "outlook", "name": "OUTLOOK MAIL", "icon": "📧",
+         "desc": "Verified Outlook Mail Account",
+         "plans": [{"label": "1 Account", "price": 0.10}]},
+        {"id": "discord", "name": "DISCORD NITRO", "icon": "🤖",
+         "desc": "Discord Nitro Subscription",
+         "plans": [{"label": "Nitro 1 Month", "price": 3.50}]},
+        {"id": "telegram", "name": "TELEGRAM ACCOUNT RANDOM", "icon": "✈️",
+         "desc": "Random Telegram Account Session",
+         "plans": [{"label": "1 Account", "price": 0.75}]},
+        {"id": "spotify", "name": "SPOTIFY PREMIUM 1 MONTH", "icon": "🎵",
+         "desc": "Spotify Individual Upgrade",
+         "plans": [{"label": "1 Month Individual", "price": 0.50}]}
     ]
     _save(PRODUCTS_FILE, products)
 
@@ -356,7 +356,7 @@ def main_kb(uid=None):
     lang = get_lang(uid) if uid else "kh"
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
     if lang == "en":
-        kb.row("🛍 Shop")
+        kb.row("🛍️ Shop")
         kb.row("📊 SMM Services",  "📦 Orders")
         kb.row("💳 Top Up",        "👜 Wallet",         "📜 History")
         kb.row("💬 Support",       "💡 How to Use",    "🌐 Language")
@@ -1131,7 +1131,6 @@ def cb_prod(call):
         status = "✅ Available" if cnt > 0 else "❌ អស់"
         plan_lines.append(f"  • {pl['label']} — {price_str}  {status}")
     plans_txt = "\n".join(plan_lines) if plan_lines else "  (គ្មាន plan)"
-    
     txt = (f"{p.get('icon','📦')} <b>{p['name']}</b>\n"
            f"━━━━━━━━━━━━━━━━━━\n"
            f"📋 {p.get('desc','')}\n"
@@ -1139,26 +1138,9 @@ def cb_prod(call):
            f"📦 Plans:\n{plans_txt}\n"
            f"━━━━━━━━━━━━━━━━━━\n"
            f"{'ជ្រើស Plan:' if lang=='kh' else 'Choose Plan:'}")
-    
-    product_image_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
-    if pid == "telegram_premium":
-        product_image_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
-
-    try:
-        bot.delete_message(uid, call.message.message_id)
-    except:
-        pass
-
-    try:
-        bot.send_photo(
-            chat_id=uid,
-            photo=product_image_url,
-            caption=txt,
-            parse_mode="HTML",
-            reply_markup=plans_kb(pid)
-        )
-    except Exception:
-        bot.send_message(uid, txt, parse_mode="HTML", reply_markup=plans_kb(pid))
+    try: bot.edit_message_text(txt, chat_id=uid, message_id=call.message.message_id,
+                                parse_mode="HTML", reply_markup=plans_kb(pid))
+    except: bot.send_message(uid, txt, parse_mode="HTML", reply_markup=plans_kb(pid))
 
 @bot.callback_query_handler(func=lambda c: c.data.startswith("plan_oos:"))
 def cb_plan_oos(call):
@@ -1436,7 +1418,7 @@ def cb_smmcustom(call):
     
     bot.send_message(
         uid,
-        f"✏️️ <b>សូមបញ្ចូលចំនួន (Quantity) ដែលអ្នកចង់ទិញ៖</b>\n"
+        f"✏️ <b>សូមបញ្ចូលចំនួន (Quantity) ដែលអ្នកចង់ទិញ៖</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"📏 Min: <b>{mn:,}</b>  ·  Max: <b>{mx:,}</b>\n"
         f"<i>(សូមវាយជាតួលេខសុទ្ធ ឧទាហរណ៍: 2500)</i>",
@@ -2257,7 +2239,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status"] == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
