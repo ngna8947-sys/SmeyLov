@@ -76,7 +76,7 @@ from PIL import Image, ImageDraw, ImageFont
 #  CONFIG  — ដូរតម្លៃទាំងនេះ
 # ═══════════════════════════════════════════════════════════
 BOT_TOKEN          = "8875643462:AAEycXH5tVQvHWb57VIF0yYwOIq1CTcg9Y4"
-ADMIN_ID           = 5630396613
+ADMIN_ID           = 8807182741
 
 # Bakong KHQR (ដាក់ Token ពេញលេញពីអ៊ីមែលរបស់អ្នក)
 BAKONG_TOKEN       = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXJjb2pMZm1lYzJNY1GQ2NDAyYiJvJiJvJjkuSWJXi03NDQzNDQzNTIzNzFNaHptNGxDbTYiLCJpc3MiOiJCYWtvbmcifQ.eyJhaGNvdW50X2lkIjoibW9uX3NhbW5hbmdAYmtydCIsImRhdGVfaXNzdWVkIjoiMTc2MzgyOTc1MCIsImV4cGlyZXNfYXQiOjE4MjkyMzg5NTB9"
@@ -184,7 +184,7 @@ STRINGS = {
     "kh": {
         "welcome": (
             "👋 សួស្ដី {name}!\n\n"
-            "សូមស្វាគមន៍មកកាន់ <b>Smey Lov</b> 🖤✨🤖\n\n"
+            "សូមស្វាគមន៍មកកាន់ <b>Smey Lov</b> 🤖\n\n"
             "💡 អ្នកអាចប្រើ Bot របស់យើងសម្រាប់:\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
@@ -225,7 +225,7 @@ STRINGS = {
     "en": {
         "welcome": (
             "👋 Welcome {name}!\n\n"
-            "Welcome to <b>Smey Lov</b> 🖤✨🤖\n\n"
+            "Welcome to <b>Smey Lov</b> 🤖\n\n"
             "💡 You can use our bot for:\n"
             "📈 Boost Followers & Likes Social Media\n"
             "⚡ Automation SMM Services\n"
@@ -409,7 +409,7 @@ def deposit_amt_kb(uid=None, promo_code=None):
 def smm_cat_kb():
     PLATFORM_ICONS = {
         "tiktok": "🎵", "telegram": "📱", "facebook": "📘",
-        "instagram": "📸", "youtube": "▶", "twitter": "🐦",
+        "instagram": "📸", "youtube": "▶️", "twitter": "🐦",
         "x": "🐦", "threads": "🧵"
     }
     cats = _smm_get_categories()
@@ -850,7 +850,7 @@ def _place_store_order(uid, prod_id, plan_idx):
                 alert_txt = (
                     f"🚨 <b>Stock អស់ហើយ!</b>\n"
                     f"📦 {p.get('icon','')} {p['name']} — {plan['label']}\n"
-                    f"⚠ ចូល ➕ បន្ថែមស្តុក ភ្លាម!"
+                    f"⚠️️ ចូល ➕ បន្ថែមស្តុក ភ្លាម!"
                 )
             bot.send_message(ADMIN_ID, alert_txt, parse_mode="HTML")
         except: pass
@@ -2175,7 +2175,7 @@ def handle(message):
             cur_key = smm_api.get("key","❌ មិនទាន់ set")
             masked = cur_key[:6] + "****" + cur_key[-4:] if len(cur_key) > 10 else cur_key
             kb_api = InlineKeyboardMarkup([
-                [InlineKeyboardButton("✏ កំណត់ URL + Key", callback_data="smmapi:setup")],
+                [InlineKeyboardButton("✏️️ កំណត់ URL + Key", callback_data="smmapi:setup")],
                 [InlineKeyboardButton("🔌 សាកល្បងភ្ជាប់", callback_data="smmapi:test")],
                 [InlineKeyboardButton("🗑️ លុប API", callback_data="smmapi:clear")],
             ])
@@ -2205,7 +2205,7 @@ def handle(message):
                 f"👥 អ្នកប្រើ: <b>{total_users}</b>\n"
                 f"📦 ការបញ្ជាសរុប: <b>{total_orders}</b>\n"
                 f"💰 ចំណូលសរុប: <b>${total_rev:.2f}</b>\n"
-                f"🎟️️ Promo សកម្ម: <b>{len(promos)}</b>",
+                f"🎟️ Promo សកម្ម: <b>{len(promos)}</b>",
                 parse_mode="HTML", reply_markup=admin_kb()); return
 
         if text == "👥 អ្នកប្រើប្រាស់":
@@ -2285,7 +2285,7 @@ def handle(message):
                 btns.append([InlineKeyboardButton(
                     f"{p.get('icon','📦')} {p['name']}", callback_data=f"editprice_prod:{p['id']}")])
             bot.send_message(uid,
-                "✏ <b>កែតម្លៃ / Plan</b>\n━━━━━━━━━━━━━━━━━━\nជ្រើសផលិតផល:",
+                "✏️️ <b>កែតម្លៃ / Plan</b>\n━━━━━━━━━━━━━━━━━━\nជ្រើសផលិតផល:",
                 parse_mode="HTML", reply_markup=InlineKeyboardMarkup(btns)); return
 
         if text == "💸 បន្ថែមប្រាក់":
