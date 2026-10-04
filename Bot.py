@@ -356,7 +356,7 @@ def main_kb(uid=None):
     lang = get_lang(uid) if uid else "kh"
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
     if lang == "en":
-        kb.row("🛍️️ Shop")
+        kb.row("🛍 Shop")
         kb.row("📊 SMM Services",  "📦 Orders")
         kb.row("💳 Top Up",        "👜 Wallet",         "📜 History")
         kb.row("💬 Support",       "💡 How to Use",    "🌐 Language")
@@ -1436,7 +1436,7 @@ def cb_smmcustom(call):
     
     bot.send_message(
         uid,
-        f"✏️ <b>សូមបញ្ចូលចំនួន (Quantity) ដែលអ្នកចង់ទិញ៖</b>\n"
+        f"✏️️ <b>សូមបញ្ចូលចំនួន (Quantity) ដែលអ្នកចង់ទិញ៖</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"📏 Min: <b>{mn:,}</b>  ·  Max: <b>{mx:,}</b>\n"
         f"<i>(សូមវាយជាតួលេខសុទ្ធ ឧទាហរណ៍: 2500)</i>",
@@ -2257,7 +2257,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status"] == "pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
