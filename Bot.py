@@ -149,24 +149,18 @@ livechat_users  = set() # uid set of users currently in live chat mode
 
 if not products:
     products = [
-        {"id": "canva", "name": "CANVA EDUCATION 3 YEARS", "icon": "🎨",
-         "desc": "Canva Education Account · Delivery via Auto Stock",
-         "plans": [{"label": "3 Years Subscription", "price": 0.99}]},
-        {"id": "youtube", "name": "YOUTUBE PREMIUM 1 MONTH", "icon": "📺",
-         "desc": "YouTube Premium Individual Plan",
-         "plans": [{"label": "1 Month", "price": 0.50}]},
-        {"id": "outlook", "name": "OUTLOOK MAIL", "icon": "📧",
-         "desc": "Verified Outlook Mail Account",
-         "plans": [{"label": "1 Account", "price": 0.10}]},
-        {"id": "discord", "name": "DISCORD NITRO", "icon": "🤖",
-         "desc": "Discord Nitro Subscription",
-         "plans": [{"label": "Nitro 1 Month", "price": 3.50}]},
-        {"id": "telegram", "name": "TELEGRAM ACCOUNT RANDOM", "icon": "✈️",
-         "desc": "Random Telegram Account Session",
-         "plans": [{"label": "1 Account", "price": 0.75}]},
-        {"id": "spotify", "name": "SPOTIFY PREMIUM 1 MONTH", "icon": "🎵",
-         "desc": "Spotify Individual Upgrade",
-         "plans": [{"label": "1 Month Individual", "price": 0.50}]}
+        {"id": "netflix", "name": "Netflix Premium", "icon": "🎬",
+         "desc": "Netflix 4K UHD Account · Delivery via Auto Stock",
+         "plans": [
+             {"label": "1 Month (1 Profile)", "price": 2.50},
+             {"label": "1 Month (Full Account)", "price": 8.00}
+         ]},
+        {"id": "spotify", "name": "Spotify Premium", "icon": "🎧",
+         "desc": "Spotify Individual Upgrade · Fast Delivery",
+         "plans": [
+             {"label": "1 Month Individual", "price": 1.50},
+             {"label": "3 Months Individual", "price": 4.00}
+         ]}
     ]
     _save(PRODUCTS_FILE, products)
 
@@ -356,7 +350,7 @@ def main_kb(uid=None):
     lang = get_lang(uid) if uid else "kh"
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
     if lang == "en":
-        kb.row("🛍️ Shop")
+        kb.row("🛍️️ Shop")
         kb.row("📊 SMM Services",  "📦 Orders")
         kb.row("💳 Top Up",        "👜 Wallet",         "📜 History")
         kb.row("💬 Support",       "💡 How to Use",    "🌐 Language")
@@ -1110,14 +1104,16 @@ def cb_admaddall(call):
 
 @bot.callback_query_handler(func=lambda c: c.data.startswith("prod:"))
 def cb_prod(call):
-    uid  = call.message.chat.id
-    pid  = call.data[5:]
+    uid = call.message.chat.id
+    pid = call.data[5:]
     bot.answer_callback_query(call.id)
     p = _get_product(pid)
     if not p: return
+    
     lang = get_lang(uid)
     plans = p.get("plans", [])
     plan_lines = []
+    
     for i, pl in enumerate(plans):
         cnt = _get_plan_stock_count(pid, i)
         orig_price = float(pl['price'])
@@ -1130,17 +1126,31 @@ def cb_prod(call):
 
         status = "✅ Available" if cnt > 0 else "❌ អស់"
         plan_lines.append(f"  • {pl['label']} — {price_str}  {status}")
+        
     plans_txt = "\n".join(plan_lines) if plan_lines else "  (គ្មាន plan)"
-    txt = (f"{p.get('icon','📦')} <b>{p['name']}</b>\n"
-           f"━━━━━━━━━━━━━━━━━━\n"
-           f"📋 {p.get('desc','')}\n"
-           f"━━━━━━━━━━━━━━━━━━\n"
-           f"📦 Plans:\n{plans_txt}\n"
-           f"━━━━━━━━━━━━━━━━━━\n"
-           f"{'ជ្រើស Plan:' if lang=='kh' else 'Choose Plan:'}")
-    try: bot.edit_message_text(txt, chat_id=uid, message_id=call.message.message_id,
-                                parse_mode="HTML", reply_markup=plans_kb(pid))
-    except: bot.send_message(uid, txt, parse_mode="HTML", reply_markup=plans_kb(pid))
+    
+    caption = (
+        f"{p.get('icon','📦')} <b>{p['name']}</b>\n"
+        f"━━━━━━━━━━━━━━━━━━\n"
+        f"📋 {p.get('desc','')}\n"
+        f"━━━━━━━━━━━━━━━━━━\n"
+        f"📦 Plans:\n{plans_txt}\n"
+        f"━━━━━━━━━━━━━━━━━━\n"
+        f"{'ជ្រើស Plan:' if lang=='kh' else 'Choose Plan:'}"
+    )
+    
+    product_image_url = "https://raw.githubusercontent.com/ngna8947-sys/SmeyLov/main/photo_url.jpg"
+    
+    try:
+        bot.send_photo(
+            chat_id=uid,
+            photo=product_image_url,
+            caption=caption,
+            parse_mode="HTML",
+            reply_markup=plans_kb(pid)
+        )
+    except Exception:
+        bot.send_message(uid, caption, parse_mode="HTML", reply_markup=plans_kb(pid))
 
 @bot.callback_query_handler(func=lambda c: c.data.startswith("plan_oos:"))
 def cb_plan_oos(call):
@@ -1450,7 +1460,7 @@ def cb_addstock_prod(call):
             callback_data=f"addstock_plan:{pid}:{i}")])
     btns.append([InlineKeyboardButton("🔙 Back", callback_data="addstock_back")])
     bot.send_message(uid,
-        f"➕ <b>Add Stock — {p.get('icon','')} {p['name']}</b>\n"
+        f"➕ <b>Add Stock — {p.get('icon','📦')} {p['name']}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\nជ្រើស Plan ដើម្បីដាក់ stock:",
         parse_mode="HTML", reply_markup=InlineKeyboardMarkup(btns))
 
@@ -1469,7 +1479,7 @@ def cb_addstock_plan(call):
     bot.send_message(uid,
         f"➕ <b>Add Stock</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
-        f"📦 {p.get('icon','')} <b>{p['name']}</b>\n"
+        f"📦 {p.get('icon','📦')} <b>{p['name']}</b>\n"
         f"🏷️ Plan: <b>{plan['label']}</b> — ${plan['price']:.2f}\n"
         f"📊 Stock បច្ចុប្បន្ន: <b>{cnt}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
@@ -1519,7 +1529,7 @@ def cb_editprice_prod(call):
         "➕ បន្ថែម Plan ថ្មី", callback_data=f"editprice_addplan:{pid}")])
     btns.append([InlineKeyboardButton("🔙 Back", callback_data="editprice_back")])
     bot.send_message(uid,
-        f"✏️ <b>Edit Plans — {p.get('icon','')} {p['name']}</b>\n"
+        f"✏️ <b>Edit Plans — {p.get('icon','📦')} {p['name']}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"ចុច ✏️ Label ដើម្បីកែឈ្មោះ  |  🗑️ ដើម្បីលុប Plan:",
         parse_mode="HTML", reply_markup=InlineKeyboardMarkup(btns))
@@ -1538,7 +1548,7 @@ def cb_editprice_plan(call):
     bot.send_message(uid,
         f"✏️ <b>កែតម្លៃ Plan</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
-        f"📦 {p.get('icon','')} <b>{p['name']}</b>\n"
+        f"📦 {p.get('icon','📦')} <b>{p['name']}</b>\n"
         f"🏷️ Plan: <b>{plan['label']}</b>\n"
         f"💰 តម្លៃបច្ចុប្បន្ន: <b>${plan['price']:.2f}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
@@ -1558,7 +1568,7 @@ def cb_editprice_addplan(call):
     bot.send_message(uid,
         f"➕ <b>បន្ថែម Plan ថ្មី</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
-        f"📦 {p.get('icon','')} <b>{p['name']}</b>\n\n"
+        f"📦 {p.get('icon','📦')} <b>{p['name']}</b>\n\n"
         f"ផ្ញើ <b>ឈ្មោះ Plan</b>:\n"
         f"<i>ឧ: <code>1 ខែ</code> ឬ <code>100 Accounts</code></i>",
         parse_mode="HTML", reply_markup=cancel_kb())
@@ -1592,7 +1602,7 @@ def cb_editlabel_plan(call):
     bot.send_message(uid,
         f"✏️ <b>កែឈ្មោះ Plan</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
-        f"📦 {p.get('icon','')} <b>{p['name']}</b>\n"
+        f"📦 {p.get('icon','📦')} <b>{p['name']}</b>\n"
         f"🏷️ ឈ្មោះបច្ចុប្បន្ន: <b>{plan['label']}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"ផ្ញើ <b>ឈ្មោះថ្មី</b>:\n<i>ឧ: <code>1 ខែ</code></i>",
@@ -1723,7 +1733,7 @@ def cb_adminpromo(call):
         promos.pop(code.upper(), None)
         _save(PROMO_FILE, promos)
         try:
-            bot.edit_message_text(f"🗑️️ Promo <b>{code}</b> លុបហើយ!",
+            bot.edit_message_text(f"🗑️ Promo <b>{code}</b> លុបហើយ!",
                                   chat_id=uid, message_id=call.message.message_id, parse_mode="HTML")
         except: pass
 
@@ -2023,7 +2033,7 @@ def handle(message):
             waiting.pop(uid, None)
             bot.send_message(uid,
                 f"✅ <b>តម្លៃបានកែ!</b>\n"
-                f"📦 {p.get('icon','')} <b>{p['name']}</b> — {p['plans'][plan_idx]['label']}\n"
+                f"📦 {p.get('icon','📦')} <b>{p['name']}</b> — {p['plans'][plan_idx]['label']}\n"
                 f"💰 ${old_price:.2f} → <b>${new_price:.2f}</b>",
                 parse_mode="HTML", reply_markup=admin_kb()); return
 
@@ -2042,7 +2052,7 @@ def handle(message):
             waiting.pop(uid, None)
             bot.send_message(uid,
                 f"✅ <b>ឈ្មោះ Plan បានកែ!</b>\n"
-                f"📦 {p.get('icon','')} <b>{p['name']}</b>\n"
+                f"📦 {p.get('icon','📦')} <b>{p['name']}</b>\n"
                 f"🏷 <b>{old_label}</b> → <b>{new_label}</b>",
                 parse_mode="HTML", reply_markup=admin_kb()); return
 
@@ -2053,7 +2063,10 @@ def handle(message):
                 bot.send_message(uid, "❌ ឈ្មោះ Plan មិនអាចទទេ!"); return
             waiting[uid] = {"step": "edit_price_newplan_price", "pid": pid, "label": label}
             bot.send_message(uid,
-                f"💰 Plan: <b>{label}</b>\nផ្ញើ <b>តម្លៃ</b> (USD):\n<i>ឧ: <code>2.50</code></i>",
+                f"➕ <b>បន្ថែម Plan ថ្មី</b>\n"
+                f"━━━━━━━━━━━━━━━━━━\n"
+                f"📦 Plan: <b>{label}</b>\n\n"
+                f"ផ្ញើ <b>តម្លៃ</b> (USD):\n<i>ឧ: <code>2.50</code></i>",
                 parse_mode="HTML", reply_markup=cancel_kb()); return
 
         if isinstance(step, dict) and step.get("step") == "edit_price_newplan_price":
@@ -2072,7 +2085,7 @@ def handle(message):
             waiting.pop(uid, None)
             bot.send_message(uid,
                 f"✅ <b>Plan ថ្មីបានបន្ថែម!</b>\n"
-                f"📦 {p.get('icon','')} <b>{p['name']}</b>\n"
+                f"📦 {p.get('icon','📦')} <b>{p['name']}</b>\n"
                 f"🏷️ <b>{label}</b> — ${price:.2f}",
                 parse_mode="HTML", reply_markup=admin_kb()); return
 
@@ -2239,7 +2252,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status"] == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
@@ -2251,7 +2264,7 @@ def handle(message):
             lines = ["<b>📦 ទិដ្ឋភាពស្តុក</b>\n━━━━━━━━━━━━━━━━━━"]
             for p in products:
                 plans = p.get("plans", [])
-                lines.append(f"\n{p.get('icon','')} <b>{p['name']}</b>")
+                lines.append(f"\n{p.get('icon','📦')} <b>{p['name']}</b>")
                 if plans:
                     for i, pl in enumerate(plans):
                         cnt   = _get_plan_stock_count(p["id"], i)
