@@ -143,7 +143,6 @@ waiting         = {}
 lang_cooldown   = {}
 livechat_users  = set()
 
-# កំណត់ផលិតផលជាមួយ Icon Emoji ស្អាតៗដូចលក្ខណៈស្តង់ដារហាងធំៗ[cite: 3]
 if not products:
     products = [
         {"id": "capcut_pro", "name": "CapCut Pro", "icon": "🎬",
@@ -371,7 +370,7 @@ def main_kb(uid=None):
         kb.row("💳 Top Up",        "👜 Wallet",         "📜 History")
         kb.row("💬 Support",       "💡 How to Use",    "🌐 Language")
     else:
-        kb.row("🛍️ ហាងឌីជីថល")
+        kb.row("🛍️️ ហាងឌីជីថល")
         kb.row("📊 សេវាកម្ម SMM",  "📦 ការបញ្ជាទិញ")
         kb.row("💳 ដាក់ប្រាក់",    "👜 កាបូបលុយ",      "📜 ប្រវត្តិ")
         kb.row("💬 ជំនួយ Support", "💡 របៀបប្រើប្រាស់", "🌐 ភាសា / Language")
@@ -565,7 +564,7 @@ def _smm_get_categories():
     return cats
 
 def _smm_get_svcs_in_cat(cat):
-    return [(slug, s) for slug, s in smm_services.items() if s.get("category"] == cat]
+    return [(slug, s) for slug, s in smm_services.items() if s.get("category") == cat]
 
 def _smm_profit_pct(): return float(smm_profit.get("pct", 20))
 
@@ -2244,7 +2243,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status"] == "pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
@@ -2390,7 +2389,7 @@ def handle(message):
                         callback_data=f"delsvc:{slug}"
                     )])
                 btns.append([InlineKeyboardButton(
-                    f"🗑️️ លុបទាំងអស់ {cat}",
+                    f"🗑️ លុបទាំងអស់ {cat}",
                     callback_data=f"delsvc:cat:{cat}"
                 )])
                 bot.send_message(uid,
