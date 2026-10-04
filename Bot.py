@@ -858,7 +858,7 @@ def _place_store_order(uid, prod_id, plan_idx):
     if remaining <= STOCK_ALERT_MIN:
         try:
             alert_txt = (
-                f"⚠️ <b>ជូនដំណឹង Stock!</b>\n"
+                f"⚠️️ <b>ជូនដំណឹង Stock!</b>\n"
                 f"📦 {p.get('icon','')} {p['name']} — {plan['label']}\n"
                 f"🔢 នៅសល់: <b>{remaining}</b>"
             )
@@ -1169,7 +1169,7 @@ def cb_plan(call):
     
     waiting[uid] = {"step": "order_qty", "prod_id": pid, "plan_idx": idx, "price": price}
     bot.send_message(uid,
-        f"🛍️️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
+        f"🛍️ <b>{p['name']}</b> — {plan['label']} — <b>${price:.2f}</b>\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"🔢 សូមបញ្ចូលចំនួន Account (លេខតែមួយ):\nSend a numeric count of accounts:",
         parse_mode="HTML", reply_markup=cancel_kb())
@@ -2253,7 +2253,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status"] == "pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
@@ -2332,7 +2332,7 @@ def handle(message):
                 "💔 <b>កាត់ប្រាក់</b>\n━━━━━━━━━━━━━━━━━━\nជ្រើសអ្នកប្រើ:",
                 parse_mode="HTML", reply_markup=InlineKeyboardMarkup(btns)); return
 
-        if text == "🎟️️ លេខកូដPromo":
+        if text == "🎟️ លេខកូដPromo":
             _show_promos(uid)
             bot.send_message(uid,
                 "🎟️ <b>គ្រប់គ្រង Promo Code</b>",
@@ -2399,7 +2399,7 @@ def handle(message):
                         callback_data=f"delsvc:{slug}"
                     )])
                 btns.append([InlineKeyboardButton(
-                    f"🗑️️ លុបទាំងអស់ {cat}",
+                    f"🗑️ លុបទាំងអស់ {cat}",
                     callback_data=f"delsvc:cat:{cat}"
                 )])
                 bot.send_message(uid,
