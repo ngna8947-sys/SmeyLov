@@ -350,7 +350,7 @@ def main_kb(uid=None):
     lang = get_lang(uid) if uid else "kh"
     kb = ReplyKeyboardMarkup(resize_keyboard=True)
     if lang == "en":
-        kb.row("🛍️️ Shop")
+        kb.row("🛍 Shop")
         kb.row("📊 SMM Services",  "📦 Orders")
         kb.row("💳 Top Up",        "👜 Wallet",         "📜 History")
         kb.row("💬 Support",       "💡 How to Use",    "🌐 Language")
@@ -376,7 +376,7 @@ def admin_kb():
     kb.row("💸 បន្ថែមប្រាក់",   "💔 កាត់ប្រាក់")
     kb.row("━━━ 👥 អ្នកប្រើ ━━━")
     kb.row("👥 អ្នកប្រើប្រាស់",  "📊 ស្ថិតិ")
-    kb.row("🎟️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
+    kb.row("🎟️️ លេខកូដPromo",   "📢 ផ្សព្វផ្សាយ")
     kb.row("⏱ ល្បឿន Poll",     "🔄 ធ្វើឱ្យទាន់សម័យ")
     return kb
 
@@ -2252,7 +2252,7 @@ def handle(message):
             return
 
         if text == "💳 ប្រាក់បញ្ញើ":
-            pend = [(k, v) for k, v in store_deps.items() if v.get("status"] == "pending"]
+            pend = [(k, v) for k, v in store_deps.items() if v.get("status") == "pending"]
             if not pend:
                 bot.send_message(uid, "✅ គ្មានការដាក់លុយ pending", reply_markup=admin_kb()); return
             lines = ["<b>💳 ប្រាក់បញ្ញើ រង់ចាំ</b>\n━━━━━━━━━━━━━━━━━━"]
@@ -2372,7 +2372,7 @@ def handle(message):
                 [InlineKeyboardButton("🎵 TikTok",    callback_data="smmaddcat:TikTok"),
                  InlineKeyboardButton("📘 Facebook",  callback_data="smmaddcat:Facebook")],
                 [InlineKeyboardButton("📸 Instagram", callback_data="smmaddcat:Instagram"),
-                 InlineKeyboardButton("▶️ YouTube",   callback_data="smmaddcat:YouTube")],
+                 InlineKeyboardButton("▶️️ YouTube",   callback_data="smmaddcat:YouTube")],
                 [InlineKeyboardButton("📱 Telegram",  callback_data="smmaddcat:Telegram"),
                  InlineKeyboardButton("🐦 Twitter",   callback_data="smmaddcat:Twitter")],
                 [InlineKeyboardButton("✏️ Custom Category", callback_data="smmaddcat:custom")],
